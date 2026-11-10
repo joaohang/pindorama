@@ -42,6 +42,7 @@ namespace TwinHook
 
         public bool IsGrounded { get; private set; }
         public bool IsBraced { get { return isBraced; } }
+        public float Speed { get { return rb != null ? rb.GetVelocity().magnitude : 0f; } }
 
         private void Awake()
         {

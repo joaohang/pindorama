@@ -81,6 +81,7 @@ namespace TwinHook
             pcol.direction = CapsuleDirection2D.Vertical;
 
             PlayerController2D player = playerGO.AddComponent<PlayerController2D>();
+            playerGO.AddComponent<PlayerTrail>();
 
             // Visual do jogador (sprite filho, para não mexer no scale do collider).
             GameObject visual = new GameObject("Visual");
@@ -133,6 +134,11 @@ namespace TwinHook
             GameObject aimGO = new GameObject("AimView");
             HookAimView aim = aimGO.AddComponent<HookAimView>();
             aim.Configure(controller, player, settings);
+
+            // --- Speed lines em tela cheia ---
+            GameObject speedGO = new GameObject("SpeedLines");
+            SpeedLinesOverlay speedLines = speedGO.AddComponent<SpeedLinesOverlay>();
+            speedLines.Configure(player);
 
             // --- Câmera ---
             CameraFollow follow = cam.GetComponent<CameraFollow>();

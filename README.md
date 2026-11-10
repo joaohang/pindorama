@@ -56,6 +56,18 @@ câmera, HUD) é criado em tempo de execução pelo `GameBootstrap`.
 - **Puxão espelhado:** com as duas mãos em puxáveis, aperte os dois botões.
 - **Queda:** cair no fundo faz reset. `R` reseta a sala.
 
+## Efeitos visuais
+
+- **Corrente neon:** `LineRenderer` segmentado (textura de elos) + uma segunda
+  linha aditiva mais larga para o brilho. Estica em ~0,12 s ao prender e fica
+  com uma oscilação senoidal leve.
+- **Impacto:** faíscas coloridas + poeira no ponto exato em que o gancho prende.
+- **Trail do jogador:** rastro aditivo ligado quando a velocidade passa de
+  **12 u/s** (no ar).
+- **Speed lines:** linhas radiais em tela cheia quando a velocidade passa de
+  **13 u/s**, com intensidade proporcional.
+- Tudo é criado em runtime (sem prefabs), então continua “plug and play”.
+
 ## Notas técnicas
 
 - O protótipo usa o **Input Manager legado** (`UnityEngine.Input`) para abrir e

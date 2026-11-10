@@ -27,9 +27,23 @@ namespace TwinHook
         private float reelTarget;
         private float ropeLength;
 
+        private Vector2 visualAttachPoint;
+        private bool hasVisualAttachPoint;
+
         public HookColor Color { get { return handColor; } }
         public HookHandState State { get; private set; }
         public HookAnchor Anchor { get { return anchor; } }
+        public float AttachedAt { get; private set; }
+
+        public Vector2 VisualAttachPoint
+        {
+            get
+            {
+                if (hasVisualAttachPoint)
+                    return visualAttachPoint;
+                return anchor != null ? anchor.AttachPoint : Vector2.zero;
+            }
+        }
 
         public bool IsAttached
         {
@@ -122,19 +136,21 @@ namespace TwinHook
                 return false;
             }
 
-            HookAnchor hit = Cast(origin, direction, playerCollider);
+            Vector2 impactPoint;
+            HookAnchor hit = Cast(origin, direction, playerCollider, out impactPoint);
             if (hit == null)
             {
                 Fail();
                 return false;
             }
 
-            Attach(hit);
+            Attach(hit, impactPoint);
             return true;
         }
 
-        private HookAnchor Cast(Vector2 origin, Vector2 direction, Collider2D playerCollider)
+        private HookAnchor Cast(Vector2 origin, Vector2 direction, Collider2D playerCollider, out Vector2 impactPoint)
         {
+            impactPoint = Vector2.zero;
             RaycastHit2D[] buffer = new RaycastHit2D[16];
             int n = Physics2D.RaycastNonAlloc(origin, direction, buffer, settings.range, settings.hitMask);
 
@@ -146,7 +162,10 @@ namespace TwinHook
 
                 HookAnchor a = c.GetComponent<HookAnchor>();
                 if (a != null && a.Accepts(handColor))
+                {
+                    impactPoint = buffer[i].point;
                     return a;
+                }
 
                 // Primeiro hit que não é o jogador decide: parede bloqueia; âncora errada bloqueia.
                 return null;
@@ -155,10 +174,15 @@ namespace TwinHook
             return null;
         }
 
-        private void Attach(HookAnchor a)
+        private void Attach(HookAnchor a, Vector2 impactPoint)
         {
             anchor = a;
             State = HookHandState.Attached;
+            AttachedAt = Time.time;
+            visualAttachPoint = impactPoint;
+            hasVisualAttachPoint = true;
+
+            HookImpactVfx.Play(impactPoint, HookImpactVfx.ColorFor(handColor));
 
             if (a.Motion == HookAnchorMotion.Swing)
             {
@@ -242,6 +266,7 @@ namespace TwinHook
             reeling = false;
             currentPullable = null;
             anchor = null;
+            hasVisualAttachPoint = false;
             State = HookHandState.Idle;
         }
 
