@@ -66,7 +66,7 @@ namespace TwinHook
 
             if (rb != null)
             {
-                rb.velocity = Vector2.zero;
+                rb.linearVelocity = Vector2.zero;
                 rb.bodyType = RigidbodyType2D.Kinematic;
                 rb.constraints |= RigidbodyConstraints2D.FreezeRotation;
             }
@@ -93,7 +93,7 @@ namespace TwinHook
             if (rb != null)
             {
                 rb.bodyType = RigidbodyType2D.Kinematic;
-                rb.velocity = Vector2.zero;
+                rb.linearVelocity = Vector2.zero;
                 rb.position = spawnPosition;
                 rb.constraints |= RigidbodyConstraints2D.FreezeRotation;
             }
