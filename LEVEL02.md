@@ -9,10 +9,10 @@ Você pode mover, redimensionar e trocar referências pelo Inspector.
 
 ```text
 Level02
-├── Player
+├── Player             (PlayerBodyAlignment)
 │   ├── HandRed        (HookHand + HookRopeView)
 │   ├── HandBlue       (HookHand + HookRopeView)
-│   └── Visual
+│   └── Visual         (SpriteRenderer que o collider segue)
 ├── Main Camera        (CameraFollow)
 ├── LevelController
 ├── BoxSyncPuzzle
@@ -56,6 +56,13 @@ Level02
   como `connectedBody`; por isso o jogador é transportado junto.
 - **Espinhos**: um único `BoxCollider2D` trigger cobre a faixa; os sprites dos
   espinhos são apenas visuais.
+- **Collider do jogador**: o componente `PlayerBodyAlignment` no `Player` lê os
+  `bounds` do `SpriteRenderer` do filho `Visual` e ajusta automaticamente o
+  `CapsuleCollider2D` (tamanho, offset e direção). Ele roda também no editor:
+  se você mover ou redimensionar a imagem, o collider acompanha. Não edite o
+  offset/tamanho do collider na mão — o componente sobrescreve para manter o
+  alinhamento. Para reajustar manualmente, use o menu de contexto do componente
+  **“Ajustar collider à imagem”**.
 
 ## Como o puzzle funciona
 

@@ -153,6 +153,9 @@ namespace TwinHook.Editor
             vsr.sortingOrder = 4;
             visual.transform.localScale = new Vector3(0.8f, 1.8f, 1f);
 
+            PlayerBodyAlignment alignment = playerGO.AddComponent<PlayerBodyAlignment>();
+            alignment.Configure(vsr, col);
+
             GameObject redMuzzle = new GameObject("HandRed");
             redMuzzle.transform.SetParent(playerGO.transform, false);
             redMuzzle.transform.localPosition = new Vector3(-0.35f, 0.1f, 0f);

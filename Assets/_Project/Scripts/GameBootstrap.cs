@@ -90,6 +90,9 @@ namespace TwinHook
             vsr.sprite = MakeSprite(Color.white);
             visual.transform.localScale = new Vector3(0.8f, 1.8f, 1f);
 
+            PlayerBodyAlignment alignment = playerGO.AddComponent<PlayerBodyAlignment>();
+            alignment.Configure(vsr, pcol);
+
             // Mãos (muzzle) com HookHand + HookRopeView.
             GameObject redMuzzle = new GameObject("HandRed");
             redMuzzle.transform.SetParent(playerGO.transform, false);
