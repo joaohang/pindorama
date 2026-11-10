@@ -5,6 +5,7 @@ namespace TwinHook
     /// <summary>
     /// Linhas de velocidade em screen-space (OnGUI) quando o jogador passa do
     /// limiar de velocidade no gancho. Intensidade cresce com a velocidade.
+    /// Também desenha o flash rápido do Pendulum Boost.
     /// </summary>
     public class SpeedLinesOverlay : MonoBehaviour
     {
@@ -14,10 +15,16 @@ namespace TwinHook
 
         private PlayerController2D player;
         private Texture2D white;
+        private float flashUntil;
 
         public void Configure(PlayerController2D p)
         {
             player = p;
+        }
+
+        public void Flash()
+        {
+            flashUntil = Time.time + 0.12f;
         }
 
         private void Awake()
@@ -32,6 +39,19 @@ namespace TwinHook
             if (player == null || Event.current.type != EventType.Repaint)
                 return;
 
+            GUI.depth = 1;
+
+            float time = Time.unscaledTime;
+            float flash = Mathf.Clamp01((flashUntil - Time.time) / 0.12f);
+
+            if (flash > 0f)
+            {
+                Color oldColor = GUI.color;
+                GUI.color = new Color(0.75f, 0.95f, 1f, 0.18f * flash);
+                GUI.DrawTexture(new Rect(0f, 0f, Screen.width, Screen.height), white);
+                GUI.color = oldColor;
+            }
+
             float speed = player.Speed;
             if (speed <= speedThreshold)
                 return;
@@ -39,7 +59,6 @@ namespace TwinHook
             float intensity = Mathf.InverseLerp(speedThreshold, maxSpeed, speed);
             Vector2 center = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
             float maxRadius = Mathf.Sqrt(center.x * center.x + center.y * center.y);
-            float time = Time.unscaledTime;
 
             for (int i = 0; i < lineCount; i++)
             {

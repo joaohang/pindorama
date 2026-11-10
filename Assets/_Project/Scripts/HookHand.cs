@@ -255,6 +255,12 @@ namespace TwinHook
             }
         }
 
+        public void PlayRopeSnap()
+        {
+            if (ropeView != null)
+                ropeView.PlaySnap();
+        }
+
         public void ForceDetach(DetachReason reason)
         {
             if (joint != null)

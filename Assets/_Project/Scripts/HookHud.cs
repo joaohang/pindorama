@@ -32,9 +32,19 @@ namespace TwinHook
             GUILayout.Label("Azul (RMB): " + StateText(blue));
             GUILayout.Label("Braço (2 ganchos): " + (player.IsBraced ? "SIM" : "não"));
             GUILayout.Label("No chão: " + (player.IsGrounded ? "SIM" : "não"));
+
+            string boostText;
+            if (!controller.IsSwinging)
+                boostText = "—";
+            else if (controller.BoostReady)
+                boostText = "PRONTO";
+            else
+                boostText = controller.BoostCooldownRemaining.ToString("0.0") + "s";
+            GUILayout.Label("Boost (Shift): " + boostText);
+
             GUILayout.Space(6);
             GUILayout.Label("Mover: A/D | Mirar: mouse | Vermelho: LMB | Azul: RMB");
-            GUILayout.Label("Pular/soltar: Espaço | Soltar sem pular: Ctrl | Reset: R");
+            GUILayout.Label("Pular/soltar: Espaço | Boost: Shift | Soltar sem pular: Ctrl | Reset: R");
             GUILayout.Label("Espelhado: LMB+RMB juntos | Puxão: apertar o botão da mão presa");
             GUILayout.EndArea();
         }

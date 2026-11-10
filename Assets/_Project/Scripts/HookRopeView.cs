@@ -22,6 +22,8 @@ namespace TwinHook
         private LineRenderer line;
         private LineRenderer glow;
         private Color coreColor = Color.white;
+        private Color glowColor = new Color(1f, 1f, 1f, 0.28f);
+        private float snapUntil;
 
         private void Awake()
         {
@@ -57,7 +59,7 @@ namespace TwinHook
             muzzle = muzzleTransform;
 
             coreColor = Color.Lerp(color, Color.white, 0.25f);
-            Color glowColor = new Color(color.r, color.g, color.b, 0.28f);
+            glowColor = new Color(color.r, color.g, color.b, 0.28f);
 
             if (line != null)
             {
@@ -70,6 +72,11 @@ namespace TwinHook
                 glow.startColor = glowColor;
                 glow.endColor = glowColor;
             }
+        }
+
+        public void PlaySnap()
+        {
+            snapUntil = Time.time + 0.1f;
         }
 
         private void LateUpdate()
@@ -99,6 +106,20 @@ namespace TwinHook
             Vector3 direction = delta / length;
             Vector3 normal = new Vector3(-direction.y, direction.x, 0f);
 
+            bool snapping = Time.time < snapUntil;
+            Color currentCore = snapping ? Color.white : coreColor;
+            Color currentGlow = snapping
+                ? new Color(1f, 0.95f, 0.60f, 0.60f)
+                : glowColor;
+
+            line.startColor = currentCore;
+            line.endColor = currentCore;
+            glow.startColor = currentGlow;
+            glow.endColor = currentGlow;
+
+            float amplitude = waveAmplitude * (snapping ? 2.5f : 1f);
+            float frequency = waveFrequency * (snapping ? 1.8f : 1f);
+
             for (int i = 0; i < PointCount; i++)
             {
                 float t = i / (PointCount - 1f);
@@ -106,8 +127,8 @@ namespace TwinHook
 
                 // Oscilação senoidal que desaparece nas pontas (curva elástica).
                 float wave = Mathf.Sin(t * Mathf.PI) *
-                             waveAmplitude *
-                             Mathf.Sin(Time.time * waveFrequency + t * 6f);
+                             amplitude *
+                             Mathf.Sin(Time.time * frequency + t * 6f);
                 point += normal * wave;
 
                 line.SetPosition(i, point);

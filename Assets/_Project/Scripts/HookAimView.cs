@@ -113,6 +113,13 @@ namespace TwinHook
 
             reticle.transform.position = new Vector3(end.x, end.y, 0f);
             reticle.color = targetColor.HasValue ? ColorFor(targetColor.Value) : NoTargetColor;
+
+            // Pulso do retículo quando o Pendulum Boost está pronto.
+            bool boostReady = controller.IsSwinging && controller.BoostReady;
+            float reticleScale = boostReady
+                ? 0.75f + Mathf.Sin(Time.time * 12f) * 0.08f
+                : 0.75f;
+            reticle.transform.localScale = Vector3.one * reticleScale;
         }
 
         private static Color ColorFor(HookColor color)

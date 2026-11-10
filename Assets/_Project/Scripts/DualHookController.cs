@@ -17,9 +17,17 @@ namespace TwinHook
                  "Se false, qualquer par de ganchos presos faz o brace.")]
         [SerializeField] private bool braceOnlyWithPullable = false;
 
+        [Header("Pendulum Boost (Shift)")]
+        [SerializeField] private float swingBoostImpulse = 10f;
+        [SerializeField] private float swingBoostCooldown = 1.2f;
+
         private Collider2D playerCollider;
         private Rigidbody2D playerBody;
         private Vector2 aimDirection = Vector2.right;
+
+        private float nextBoostTime;
+        private PlayerTrail playerTrail;
+        private SpeedLinesOverlay speedLines;
 
         private float redPressedAt = -1f;
         private float bluePressedAt = -1f;
@@ -39,6 +47,18 @@ namespace TwinHook
         public Vector2 AimDirection { get { return aimDirection; } }
         public HookHand RedHand { get { return redHand; } }
         public HookHand BlueHand { get { return blueHand; } }
+
+        public bool IsSwinging
+        {
+            get
+            {
+                return (redHand != null && redHand.IsSwing) ||
+                       (blueHand != null && blueHand.IsSwing);
+            }
+        }
+
+        public bool BoostReady { get { return Time.time >= nextBoostTime; } }
+        public float BoostCooldownRemaining { get { return Mathf.Max(0f, nextBoostTime - Time.time); } }
 
         private void Update()
         {
@@ -83,6 +103,72 @@ namespace TwinHook
             }
 
             UpdateBrace();
+
+            // Pendulum Boost (Shift): impulso tangencial com cooldown.
+            if (playerTrail == null && player != null)
+                playerTrail = player.GetComponent<PlayerTrail>();
+            if (speedLines == null)
+                speedLines = FindObjectOfType<SpeedLinesOverlay>();
+
+            if (!IsSwinging || (player != null && player.IsGrounded))
+                nextBoostTime = 0f;
+
+            bool boostDown =
+                Input.GetKeyDown(KeyCode.LeftShift) ||
+                Input.GetKeyDown(KeyCode.RightShift) ||
+                (Input.GetJoystickNames().Length > 0 && Input.GetKeyDown(KeyCode.JoystickButton2));
+
+            if (boostDown)
+                TrySwingBoost();
+        }
+
+        private void TrySwingBoost()
+        {
+            if (!IsSwinging || player == null || playerBody == null || settings == null)
+                return;
+            if (player.IsBraced || player.IsGrounded)
+                return;
+            if (Time.time < nextBoostTime)
+                return;
+
+            HookHand hand = redHand != null && redHand.IsSwing ? redHand : blueHand;
+            if (hand == null || hand.Anchor == null)
+                return;
+
+            Vector2 position = (Vector2)player.transform.position;
+            Vector2 toAnchor = hand.Anchor.AttachPoint - position;
+            if (toAnchor.sqrMagnitude < 0.01f)
+                return;
+
+            Vector2 u = toAnchor.normalized;
+            Vector2 tangent = new Vector2(-u.y, u.x);
+
+            Vector2 velocity = playerBody.GetVelocity();
+            float dot = Vector2.Dot(velocity, tangent);
+            float sign;
+
+            if (Mathf.Abs(dot) > 0.25f)
+            {
+                sign = Mathf.Sign(dot);
+            }
+            else
+            {
+                float horizontal = Input.GetAxisRaw("Horizontal");
+                sign = Mathf.Abs(horizontal) > 0.01f ? Mathf.Sign(horizontal) : 1f;
+            }
+
+            Vector2 impulse = tangent * (sign * swingBoostImpulse);
+            Vector2 boosted = velocity + impulse;
+
+            if (boosted.magnitude > settings.maxGrappleSpeed)
+                boosted = boosted.normalized * settings.maxGrappleSpeed;
+
+            playerBody.SetVelocity(boosted);
+            nextBoostTime = Time.time + swingBoostCooldown;
+
+            hand.PlayRopeSnap();
+            if (playerTrail != null) playerTrail.Pulse();
+            if (speedLines != null) speedLines.Flash();
         }
 
         private void ReleaseSwingIfReleased(HookHand hand, bool held)

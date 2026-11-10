@@ -22,6 +22,7 @@ câmera, HUD) é criado em tempo de execução pelo `GameBootstrap`.
 | Gancho vermelho | botão esquerdo | `LB` |
 | Gancho azul | botão direito | `RB` |
 | Pular / soltar ganchos | `Espaço` | `A` |
+| Boost de pêndulo | `Shift` | `X` |
 | Soltar sem pular | `Ctrl` esquerdo | `B` |
 | Reset da sala | `R` | — |
 
@@ -38,6 +39,10 @@ câmera, HUD) é criado em tempo de execução pelo `GameBootstrap`.
   de 4,5 para 3,4. No brace (2 ganchos) ela vai a zero.
 - **Air control:** A/D continuam acelerando no ar e aplicam força tangencial no
   pêndulo; o limite de velocidade no gancho é 26 u/s.
+- **Pendulum Boost (Shift):** injeta um impulso **tangencial** de 10 u/s na
+  direção do movimento atual (ou do input, se estiver quase parado). Cooldown de
+  1,2 s; reseta ao soltar o gancho ou tocar no chão. A corda pisca em branco,
+  o trail dispara e a tela dá um flash curto.
 - **Salto de gancho:** pendurado, `Espaço` solta a corda e dá um **impulso
   vertical** (preservando o momentum horizontal), como um pulo de balanço.
 - **Alcance limitado (8 u):** a âncora alta (dourada, no alto) fica fora do

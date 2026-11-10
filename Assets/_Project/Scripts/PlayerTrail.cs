@@ -13,6 +13,7 @@ namespace TwinHook
 
         private PlayerController2D player;
         private TrailRenderer trail;
+        private float pulseUntil;
 
         private void Awake()
         {
@@ -33,12 +34,18 @@ namespace TwinHook
             trail.sortingOrder = -1;
         }
 
+        public void Pulse()
+        {
+            pulseUntil = Time.time + 0.3f;
+        }
+
         private void Update()
         {
             if (player == null || trail == null)
                 return;
 
-            bool fast = !player.IsGrounded && player.Speed > speedThreshold;
+            bool fast = (!player.IsGrounded && player.Speed > speedThreshold) ||
+                        Time.time < pulseUntil;
             trail.emitting = fast;
 
             if (!fast)
