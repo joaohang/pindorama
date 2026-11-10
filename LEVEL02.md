@@ -36,7 +36,7 @@ Level02
 |---|---|---|---|---|
 | Plataformas / paredes | `BoxCollider2D` | Não | — | — |
 | Âncoras de swing | `BoxCollider2D` | **Sim** | — | `HookAnchor` (Swing) |
-| Caixas | `BoxCollider2D` | Não | **Kinematic**, Freeze Rotation Z | `HookAnchor` (Fixed), `HookPullable`, `BoxIdentity` |
+| Caixas | `BoxCollider2D` | Não | **Dynamic** (gravidade), Freeze Rotation Z | `HookAnchor` (Fixed), `HookPullable` (modo dinâmico), `BoxIdentity` |
 | Marcações (pits) | `BoxCollider2D` | **Sim** | — | `BoxSnapTarget` |
 | Laser | `BoxCollider2D` | **Sim** | — | `LaserHazard` |
 | Espinhos / queda | `BoxCollider2D` | **Sim** | — | `LethalHazard` |
@@ -45,9 +45,13 @@ Level02
 
 ### Regras importantes
 
-- **Caixas**: `Rigidbody2D` Kinematic + `constraints = Freeze Rotation Z`. O
-  `HookPullable` move por `MovePosition`; o `BoxIdentity` centraliza a caixa no
-  `SnapPoint` e desliga os colliders quando ela encaixa.
+- **Caixas**: `Rigidbody2D` **Dynamic** com gravidade e `constraints = Freeze
+  Rotation Z`. O `HookPullable` está em **modo dinâmico**: o puxão aplica
+  velocidade **horizontal** (não teleporta na diagonal), a gravidade e os
+  colliders continuam valendo e a caixa cai quando sai da plataforma. O
+  `BoxIdentity` centraliza a caixa no `SnapPoint` quando ela entra no pit.
+  O modo kinematic antigo continua disponível em `HookPullable` para outros
+  objetos (`useDynamicBody = false`).
 - **Pits**: o `BoxSnapTarget` só aceita a cor configurada. Caixa errada dispara
   `WrongBoxEntered` e o puzzle falha.
 - **Laser**: `LaserHazard.SetActive(false)` desliga beam, glow e collider de uma
@@ -63,6 +67,20 @@ Level02
   offset/tamanho do collider na mão — o componente sobrescreve para manter o
   alinhamento. Para reajustar manualmente, use o menu de contexto do componente
   **“Ajustar collider à imagem”**.
+
+### Puxão dinâmico das caixas
+
+- `HookPullable.useDynamicBody = true` (já configurado nas caixas da Level02).
+- O puxão aplica apenas **velocidade horizontal**; a gravidade continua puxando
+  a caixa para baixo. Ela respeita plataformas, paredes e o chão.
+- `pullStopDistance` (1,5): distância horizontal mínima do jogador.
+- `dynamicPullSpeed` (5): velocidade máxima do puxão.
+- `dynamicPullAcceleration` (45): rapidez com que a caixa chega nessa velocidade.
+- A caixa cai quando o centro dela passa da borda da plataforma. O trigger do
+  pit precisa estar na **abertura do buraco** para pegar a caixa na queda.
+- Se quiser uma caixa que desliza sem gravidade (comportamento antigo), use
+  `useDynamicBody = false`, `BoxIdentity.dynamicBody = false` e
+  `Rigidbody2D.bodyType = Kinematic`.
 
 ## Como o puzzle funciona
 

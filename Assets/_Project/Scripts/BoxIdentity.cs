@@ -13,10 +13,12 @@ namespace TwinHook
         [SerializeField] private string label = "BOX";
         [SerializeField] private Vector2 spawnPosition;
         [SerializeField] private float snapDuration = 0.18f;
+        [SerializeField] private bool dynamicBody = false;
 
         private Rigidbody2D rb;
         private HookPullable pullable;
         private Collider2D[] colliders;
+        private float initialGravityScale = 1f;
 
         private Vector2 snapStart;
         private Vector2 snapTarget;
@@ -39,7 +41,36 @@ namespace TwinHook
                 spawnPosition = transform.position;
 
             if (rb != null)
+            {
+                initialGravityScale = rb.gravityScale > 0.01f ? rb.gravityScale : 1f;
                 rb.constraints |= RigidbodyConstraints2D.FreezeRotation;
+
+                if (dynamicBody)
+                {
+                    rb.bodyType = RigidbodyType2D.Dynamic;
+                    rb.gravityScale = initialGravityScale;
+                }
+            }
+        }
+
+        public void SetDynamicBody(bool value)
+        {
+            dynamicBody = value;
+
+            if (rb == null)
+                return;
+
+            if (dynamicBody)
+            {
+                rb.bodyType = RigidbodyType2D.Dynamic;
+                rb.freezeRotation = true;
+                rb.gravityScale = initialGravityScale;
+                rb.constraints |= RigidbodyConstraints2D.FreezeRotation;
+            }
+            else
+            {
+                rb.bodyType = RigidbodyType2D.Kinematic;
+            }
         }
 
         public void Configure(HookColor boxColor, string boxLabel)
@@ -92,7 +123,8 @@ namespace TwinHook
 
             if (rb != null)
             {
-                rb.bodyType = RigidbodyType2D.Kinematic;
+                rb.bodyType = dynamicBody ? RigidbodyType2D.Dynamic : RigidbodyType2D.Kinematic;
+                rb.gravityScale = initialGravityScale;
                 rb.linearVelocity = Vector2.zero;
                 rb.position = spawnPosition;
                 rb.constraints |= RigidbodyConstraints2D.FreezeRotation;

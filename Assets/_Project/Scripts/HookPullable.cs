@@ -3,9 +3,10 @@ using UnityEngine;
 namespace TwinHook
 {
     /// <summary>
-    /// Objeto puxável (pedra/bloco). Kinematic, sem gravidade e sem swing.
-    /// O jogador fica fixo (via PlayerController2D) e cada aperto arrasta o
-    /// objeto um pouco na direção do jogador (pedra pesada).
+    /// Objeto puxável.
+    /// - Modo kinematic (padrão): pedra/bloco que desliza em passos até o jogador.
+    /// - Modo dinâmico: Rigidbody2D com gravidade; o puxão aplica velocidade
+    ///   horizontal e o corpo cai/colide normalmente (ideal para caixas em pits).
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Collider2D))]
@@ -18,6 +19,11 @@ namespace TwinHook
         [SerializeField] private float pullStopDistance = 1.4f;
         [SerializeField] private float pullCooldown = 0.3f;
 
+        [Header("Corpo dinâmico (gravidade)")]
+        [SerializeField] private bool useDynamicBody = false;
+        [SerializeField] private float dynamicPullSpeed = 5f;
+        [SerializeField] private float dynamicPullAcceleration = 45f;
+
         private Rigidbody2D rb;
         private Collider2D ownCollider;
         private bool isPulling;
@@ -27,13 +33,26 @@ namespace TwinHook
 
         public bool IsPulling { get { return isPulling; } }
         public bool IsLocked { get { return locked; } }
+        public bool UsesDynamicBody { get { return useDynamicBody; } }
 
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
             ownCollider = GetComponent<Collider2D>();
-            rb.bodyType = RigidbodyType2D.Kinematic;
-            rb.useFullKinematicContacts = false;
+
+            if (useDynamicBody)
+            {
+                rb.bodyType = RigidbodyType2D.Dynamic;
+                rb.freezeRotation = true;
+                rb.constraints |= RigidbodyConstraints2D.FreezeRotation;
+                if (rb.gravityScale <= 0.01f)
+                    rb.gravityScale = 1f;
+            }
+            else
+            {
+                rb.bodyType = RigidbodyType2D.Kinematic;
+                rb.useFullKinematicContacts = false;
+            }
         }
 
         public void ConfigurePull(PullAxis pullAxis, float stepDistance, float stopDistance,
@@ -44,6 +63,30 @@ namespace TwinHook
             pullStopDistance = stopDistance;
             pullSpeed = speed;
             pullCooldown = cooldown;
+        }
+
+        public void ConfigureDynamic(bool dynamicBody, float speed, float acceleration)
+        {
+            useDynamicBody = dynamicBody;
+            dynamicPullSpeed = speed;
+            dynamicPullAcceleration = acceleration;
+
+            if (!Application.isPlaying || rb == null)
+                return;
+
+            if (useDynamicBody)
+            {
+                rb.bodyType = RigidbodyType2D.Dynamic;
+                rb.freezeRotation = true;
+                rb.constraints |= RigidbodyConstraints2D.FreezeRotation;
+                if (rb.gravityScale <= 0.01f)
+                    rb.gravityScale = 1f;
+            }
+            else
+            {
+                rb.bodyType = RigidbodyType2D.Kinematic;
+                rb.useFullKinematicContacts = false;
+            }
         }
 
         public void SetLocked(bool value)
@@ -57,6 +100,12 @@ namespace TwinHook
         {
             if (!isPulling || locked)
                 return;
+
+            if (useDynamicBody)
+            {
+                UpdateDynamicPull();
+                return;
+            }
 
             Vector2 current = rb.position;
             Vector2 delta = target - current;
@@ -101,6 +150,25 @@ namespace TwinHook
             rb.MovePosition(current + dir * allowed);
         }
 
+        private void UpdateDynamicPull()
+        {
+            float dx = target.x - rb.position.x;
+            if (Mathf.Abs(dx) < 0.05f)
+            {
+                Finish();
+                return;
+            }
+
+            float direction = Mathf.Sign(dx);
+            Vector2 velocity = rb.linearVelocity;
+            velocity.x = Mathf.MoveTowards(
+                velocity.x,
+                direction * dynamicPullSpeed,
+                dynamicPullAcceleration * Time.fixedDeltaTime);
+
+            rb.linearVelocity = velocity;
+        }
+
         public bool TryBeginPull(PlayerController2D player)
         {
             if (isPulling || locked)
@@ -109,6 +177,22 @@ namespace TwinHook
                 return false;
             if (Time.time < nextPullTime)
                 return false;
+
+            if (useDynamicBody)
+            {
+                float dx = player.transform.position.x - rb.position.x;
+                if (Mathf.Abs(dx) <= pullStopDistance + 0.05f)
+                    return false;
+
+                float direction = Mathf.Sign(dx);
+                target = new Vector2(
+                    player.transform.position.x - direction * pullStopDistance,
+                    rb.position.y);
+
+                isPulling = true;
+                nextPullTime = Time.time + pullCooldown;
+                return true;
+            }
 
             Vector2 toPlayer = (Vector2)player.transform.position - rb.position;
             if (axis == PullAxis.Horizontal)

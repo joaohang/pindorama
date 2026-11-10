@@ -273,19 +273,22 @@ namespace TwinHook.Editor
             col.size = Vector2.one;
 
             Rigidbody2D rb = go.AddComponent<Rigidbody2D>();
-            rb.bodyType = RigidbodyType2D.Kinematic;
-            rb.gravityScale = 0f;
+            rb.bodyType = RigidbodyType2D.Dynamic;
+            rb.gravityScale = 1f;
             rb.freezeRotation = true;
             rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+            rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
             HookAnchor anchor = go.AddComponent<HookAnchor>();
             anchor.Configure(color, HookAnchorMotion.Fixed);
 
             HookPullable pull = go.AddComponent<HookPullable>();
-            pull.ConfigurePull(PullAxis.Any, 1.2f, 1.5f, 7f, 0.25f);
+            pull.ConfigurePull(PullAxis.Horizontal, 1.2f, 1.5f, 7f, 0.25f);
+            pull.ConfigureDynamic(true, 5f, 45f);
 
             BoxIdentity identity = go.AddComponent<BoxIdentity>();
             identity.Configure(color, name);
+            identity.SetDynamicBody(true);
 
             return identity;
         }
