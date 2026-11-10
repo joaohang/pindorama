@@ -22,6 +22,8 @@ namespace TwinHook
         [Tooltip("Impulso vertical ao saltar soltando o gancho no ar (salto de gancho).")]
         [SerializeField] private float grappleJumpVelocity = 13f;
         [SerializeField] private float gravityScale = 4.5f;
+        [Tooltip("Gravidade reduzida enquanto há um gancho de swing ativo (suspensão heroica).")]
+        [SerializeField] private float swingGravityScale = 3.4f;
         [SerializeField] private float maxFallSpeed = 24f;
         [SerializeField] private float coyoteTime = 0.1f;
         [SerializeField] private float jumpBuffer = 0.12f;
@@ -103,6 +105,24 @@ namespace TwinHook
                 coyoteTimer = coyoteTime;
             else
                 coyoteTimer -= Time.deltaTime;
+
+            UpdateGravity();
+        }
+
+        /// <summary>
+        /// Suspensão heroica: com gancho de swing ativo, a gravidade cai um
+        /// pouco. No brace a gravidade já é zero e não mexemos nela.
+        /// </summary>
+        private void UpdateGravity()
+        {
+            if (isBraced)
+                return;
+
+            bool swinging = hooks != null &&
+                ((hooks.RedHand != null && hooks.RedHand.IsSwing) ||
+                 (hooks.BlueHand != null && hooks.BlueHand.IsSwing));
+
+            rb.gravityScale = swinging ? swingGravityScale : gravityScale;
         }
 
         private void FixedUpdate()

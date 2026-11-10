@@ -33,7 +33,11 @@ câmera, HUD) é criado em tempo de execução pelo `GameBootstrap`.
   balançar; A/D acelera o pêndulo.
 - **Segure para ficar preso:** em âncora de swing, o gancho só continua preso
   enquanto o botão daquela mão estiver **segurado**. Soltar o botão solta o
-  gancho na hora.
+  gancho na hora, preservando o momentum.
+- **Suspensão heroica:** enquanto há um gancho de swing ativo, a gravidade cai
+  de 4,5 para 3,4. No brace (2 ganchos) ela vai a zero.
+- **Air control:** A/D continuam acelerando no ar e aplicam força tangencial no
+  pêndulo; o limite de velocidade no gancho é 26 u/s.
 - **Salto de gancho:** pendurado, `Espaço` solta a corda e dá um **impulso
   vertical** (preservando o momentum horizontal), como um pulo de balanço.
 - **Alcance limitado (8 u):** a âncora alta (dourada, no alto) fica fora do
