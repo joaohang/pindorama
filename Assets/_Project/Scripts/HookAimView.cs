@@ -12,16 +12,24 @@ namespace TwinHook
         private const int MaxDots = 32;
         private const float DotSpacing = 0.45f;
 
-        private DualHookController controller;
-        private PlayerController2D player;
-        private HookSettings settings;
-        private Collider2D playerCollider;
+        [SerializeField] private DualHookController controller;
+        [SerializeField] private PlayerController2D player;
+        [SerializeField] private HookSettings settings;
 
+        private Collider2D playerCollider;
         private SpriteRenderer[] dots;
         private SpriteRenderer reticle;
 
         private static readonly Color AimColor = new Color(0.25f, 0.95f, 0.90f, 1f);
         private static readonly Color NoTargetColor = new Color(0.62f, 0.68f, 0.74f, 1f);
+
+        private void Awake()
+        {
+            BuildVisuals();
+
+            if (player != null)
+                playerCollider = player.GetComponent<Collider2D>();
+        }
 
         public void Configure(DualHookController c, PlayerController2D p, HookSettings s)
         {
@@ -31,6 +39,12 @@ namespace TwinHook
 
             if (player != null)
                 playerCollider = player.GetComponent<Collider2D>();
+        }
+
+        private void BuildVisuals()
+        {
+            if (reticle != null)
+                return;
 
             Sprite dotSprite = MakeSolidSprite(Color.white);
             Sprite reticleSprite = MakeCrosshairSprite();

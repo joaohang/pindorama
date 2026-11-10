@@ -13,6 +13,17 @@ Protótipo jogável das mecânicas da especificação v0.3, montado em código
 A cena já está no Build Settings. Tudo (chão, paredes, âncoras, blocos, jogador,
 câmera, HUD) é criado em tempo de execução pelo `GameBootstrap`.
 
+## Cena Level02 (level design editável)
+
+Há também a cena **`Assets/_Project/Scenes/Level02.unity`**, feita para editar o
+level design na mão: plataformas, âncoras, caixas, pits, laser, espinhos e a
+Bola Amarela são **objetos reais da hierarquia** (sem `GameBootstrap`).
+
+- Abra `Level02.unity` e dê Play.
+- As regras de caixa/pit/laser e as diretrizes de colliders/triggers estão em
+  [`LEVEL02.md`](LEVEL02.md).
+- As duas cenas estão no Build Settings, com a `Level02` primeiro.
+
 ## Controles
 
 | Ação | Teclado/mouse | Gamepad |

@@ -63,6 +63,9 @@ namespace TwinHook
         private void Awake()
         {
             State = HookHandState.Idle;
+
+            if (player != null)
+                playerBody = player.GetComponent<Rigidbody2D>();
         }
 
         private void Update()

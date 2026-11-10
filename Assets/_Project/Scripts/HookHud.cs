@@ -7,10 +7,10 @@ namespace TwinHook
     /// </summary>
     public class HookHud : MonoBehaviour
     {
-        private PlayerController2D player;
-        private DualHookController controller;
-        private HookHand red;
-        private HookHand blue;
+        [SerializeField] private PlayerController2D player;
+        [SerializeField] private DualHookController controller;
+        [SerializeField] private HookHand red;
+        [SerializeField] private HookHand blue;
 
         public void Configure(PlayerController2D p, DualHookController c, HookHand redHand, HookHand blueHand)
         {

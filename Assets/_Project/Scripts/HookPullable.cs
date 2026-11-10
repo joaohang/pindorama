@@ -21,10 +21,12 @@ namespace TwinHook
         private Rigidbody2D rb;
         private Collider2D ownCollider;
         private bool isPulling;
+        private bool locked;
         private float nextPullTime;
         private Vector2 target;
 
         public bool IsPulling { get { return isPulling; } }
+        public bool IsLocked { get { return locked; } }
 
         private void Awake()
         {
@@ -34,9 +36,26 @@ namespace TwinHook
             rb.useFullKinematicContacts = false;
         }
 
+        public void ConfigurePull(PullAxis pullAxis, float stepDistance, float stopDistance,
+                                  float speed, float cooldown)
+        {
+            axis = pullAxis;
+            pullStepDistance = stepDistance;
+            pullStopDistance = stopDistance;
+            pullSpeed = speed;
+            pullCooldown = cooldown;
+        }
+
+        public void SetLocked(bool value)
+        {
+            locked = value;
+            if (locked)
+                isPulling = false;
+        }
+
         private void FixedUpdate()
         {
-            if (!isPulling)
+            if (!isPulling || locked)
                 return;
 
             Vector2 current = rb.position;
@@ -84,7 +103,7 @@ namespace TwinHook
 
         public bool TryBeginPull(PlayerController2D player)
         {
-            if (isPulling)
+            if (isPulling || locked)
                 return false;
             if (player == null)
                 return false;

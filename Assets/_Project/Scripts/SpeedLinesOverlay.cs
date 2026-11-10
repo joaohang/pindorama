@@ -13,7 +13,8 @@ namespace TwinHook
         [SerializeField] private float maxSpeed = 26f;
         [SerializeField] private int lineCount = 24;
 
-        private PlayerController2D player;
+        [SerializeField] private PlayerController2D player;
+
         private Texture2D white;
         private float flashUntil;
 

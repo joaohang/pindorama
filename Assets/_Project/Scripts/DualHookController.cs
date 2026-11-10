@@ -60,6 +60,12 @@ namespace TwinHook
         public bool BoostReady { get { return Time.time >= nextBoostTime; } }
         public float BoostCooldownRemaining { get { return Mathf.Max(0f, nextBoostTime - Time.time); } }
 
+        private void Awake()
+        {
+            if (player != null)
+                playerBody = player.GetComponent<Rigidbody2D>();
+        }
+
         private void Update()
         {
             if (playerCollider == null && player != null)

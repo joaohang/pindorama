@@ -17,12 +17,13 @@ namespace TwinHook
         [SerializeField] private float waveFrequency = 12f;
         [SerializeField] private float segmentLength = 0.45f;
 
-        private HookHand hand;
-        private Transform muzzle;
+        [SerializeField] private HookHand hand;
+        [SerializeField] private Transform muzzle;
+        [SerializeField] private Color coreColor = Color.white;
+        [SerializeField] private Color glowColor = new Color(1f, 1f, 1f, 0.28f);
+
         private LineRenderer line;
         private LineRenderer glow;
-        private Color coreColor = Color.white;
-        private Color glowColor = new Color(1f, 1f, 1f, 0.28f);
         private float snapUntil;
 
         private void Awake()
@@ -51,6 +52,11 @@ namespace TwinHook
             glow.material = new Material(MakeAdditiveShader());
             glow.sortingOrder = 9;
             glow.enabled = false;
+
+            line.startColor = coreColor;
+            line.endColor = coreColor;
+            glow.startColor = glowColor;
+            glow.endColor = glowColor;
         }
 
         public void Configure(HookHand handRef, Transform muzzleTransform, Color color)
