@@ -139,7 +139,7 @@ namespace TwinHook
         {
             if (!IsSwinging || player == null || playerBody == null || settings == null)
                 return;
-            if (player.IsBraced || player.IsGrounded)
+            if (player.IsBraced || player.IsGrounded || player.IsRidingMovingAnchor)
                 return;
             if (Time.time < nextBoostTime)
                 return;
@@ -203,6 +203,13 @@ namespace TwinHook
             if (player == null)
                 return;
 
+            if (player.IsRidingMovingAnchor)
+            {
+                if (player.IsBraced)
+                    player.ExitBrace();
+                return;
+            }
+
             bool shouldBrace = BothAttached &&
                 (!braceOnlyWithPullable || redHand.IsPullable || blueHand.IsPullable);
 
@@ -234,6 +241,9 @@ namespace TwinHook
         private void FixedUpdate()
         {
             if (player == null || playerBody == null || settings == null)
+                return;
+
+            if (player.IsRidingMovingAnchor)
                 return;
 
             // O balanço só é aplicado no ar e fora do brace.

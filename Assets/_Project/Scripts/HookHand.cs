@@ -24,6 +24,7 @@ namespace TwinHook
         private HookPullable currentPullable;
 
         private bool reeling;
+        private bool ridingMovingAnchor;
         private float reelTarget;
         private float ropeLength;
 
@@ -189,7 +190,17 @@ namespace TwinHook
 
             if (a.Motion == HookAnchorMotion.Swing)
             {
-                CreateJoint(a);
+                if (a.GetComponentInParent<MovingAnchor>() != null)
+                {
+                    // Bola Amarela: prende o player ao transform da âncora
+                    // para ele ser transportado sem escorregar.
+                    player.BeginMovingRide(a.transform);
+                    ridingMovingAnchor = true;
+                }
+                else
+                {
+                    CreateJoint(a);
+                }
             }
             // Fixed: não cria joint nem trava o jogador. O brace é decidido
             // pelo DualHookController quando os DOIS ganchos estão presos.
@@ -270,6 +281,13 @@ namespace TwinHook
             {
                 Destroy(joint);
                 joint = null;
+            }
+
+            if (ridingMovingAnchor)
+            {
+                if (player != null)
+                    player.EndMovingRide();
+                ridingMovingAnchor = false;
             }
 
             reeling = false;

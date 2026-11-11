@@ -56,8 +56,12 @@ Level02
   `WrongBoxEntered` e o puzzle falha.
 - **Laser**: `LaserHazard.SetActive(false)` desliga beam, glow e collider de uma
   vez. O `BoxSyncPuzzle` chama isso permanentemente no sucesso.
-- **Bola Amarela**: o `DistanceJoint2D` do gancho usa o `Rigidbody2D` da bola
-  como `connectedBody`; por isso o jogador é transportado junto.
+- **Bola Amarela (Moving Platform Parenting):** ao prender, o `HookHand` detecta
+  o `MovingAnchor` e chama `PlayerController2D.BeginMovingRide`: o jogador vira
+  **filho** do transform da bola e o `Rigidbody2D.simulated` fica `false`.
+  Assim ele é transportado junto, sem escorregar. Ao soltar (botão, `Espaço`,
+  `Ctrl` ou reset), `EndMovingRide` restaura o parent original, a posição e o
+  `simulated`, e o jogador cai/salta normalmente.
 - **Espinhos**: um único `BoxCollider2D` trigger cobre a faixa; os sprites dos
   espinhos são apenas visuais.
 - **Collider do jogador**: o componente `PlayerBodyAlignment` no `Player` lê os

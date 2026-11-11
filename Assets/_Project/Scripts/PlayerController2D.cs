@@ -38,10 +38,15 @@ namespace TwinHook
         private float jumpBufferTimer;
         private float horizontal;
 
+        private int movingRideCount;
+        private Transform rideOriginalParent;
+        private bool rideOriginalSimulated = true;
+
         private readonly Collider2D[] groundResults = new Collider2D[8];
 
         public bool IsGrounded { get; private set; }
         public bool IsBraced { get { return isBraced; } }
+        public bool IsRidingMovingAnchor { get { return movingRideCount > 0; } }
         public float Speed { get { return rb != null ? rb.GetVelocity().magnitude : 0f; } }
 
         private void Awake()
@@ -57,6 +62,52 @@ namespace TwinHook
         private void Start()
         {
             hooks = FindObjectOfType<DualHookController>();
+        }
+
+        /// <summary>
+        /// Prende o jogador à âncora móvel (Bola Amarela) para ele ser
+        /// transportado sem escorregar. A física fica desligada enquanto o
+        /// transform é filho da âncora.
+        /// </summary>
+        public void BeginMovingRide(Transform anchor)
+        {
+            if (anchor == null)
+                return;
+
+            if (movingRideCount == 0)
+            {
+                rideOriginalParent = transform.parent;
+                rideOriginalSimulated = rb != null && rb.simulated;
+
+                if (rb != null)
+                {
+                    rb.linearVelocity = Vector2.zero;
+                    rb.simulated = false;
+                }
+
+                transform.SetParent(anchor, true);
+            }
+
+            movingRideCount++;
+        }
+
+        public void EndMovingRide()
+        {
+            if (movingRideCount <= 0)
+                return;
+
+            movingRideCount--;
+            if (movingRideCount > 0)
+                return;
+
+            transform.SetParent(rideOriginalParent, true);
+
+            if (rb != null)
+            {
+                rb.simulated = rideOriginalSimulated;
+                rb.position = transform.position;
+                rb.linearVelocity = Vector2.zero;
+            }
         }
 
         private void Update()
@@ -116,7 +167,7 @@ namespace TwinHook
         /// </summary>
         private void UpdateGravity()
         {
-            if (isBraced)
+            if (isBraced || IsRidingMovingAnchor)
                 return;
 
             bool swinging = hooks != null &&
@@ -128,6 +179,9 @@ namespace TwinHook
 
         private void FixedUpdate()
         {
+            if (IsRidingMovingAnchor)
+                return;
+
             if (isBraced)
             {
                 rb.SetVelocity(Vector2.zero);
