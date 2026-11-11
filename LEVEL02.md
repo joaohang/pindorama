@@ -58,10 +58,14 @@ Level02
   vez. O `BoxSyncPuzzle` chama isso permanentemente no sucesso.
 - **Bola Amarela (Moving Platform Parenting):** ao prender, o `HookHand` detecta
   o `MovingAnchor` e chama `PlayerController2D.BeginMovingRide`: o jogador vira
-  **filho** do transform da bola e o `Rigidbody2D.simulated` fica `false`.
-  Assim ele é transportado junto, sem escorregar. Ao soltar (botão, `Espaço`,
-  `Ctrl` ou reset), `EndMovingRide` restaura o parent original, a posição e o
-  `simulated`, e o jogador cai/salta normalmente.
+  **filho** do transform da bola, `gravityScale = 0` e `Rigidbody2D.simulated =
+  false`. Assim ele é transportado junto, sem escorregar. Ao soltar (botão,
+  `Espaço`, `Ctrl` ou reset), `EndMovingRide` restaura parent, gravidade,
+  posição e `simulated`.
+- **Ponto de ancoragem:** o gancho guarda o ponto exato do `hit.point` em
+  **coordenadas locais** da âncora (`InverseTransformPoint`) e converte de volta
+  com `TransformPoint` a cada frame. Por isso a corda acompanha a bola e não
+  corta o collider nem fica no centro.
 - **Espinhos**: um único `BoxCollider2D` trigger cobre a faixa; os sprites dos
   espinhos são apenas visuais.
 - **Collider do jogador**: o componente `PlayerBodyAlignment` no `Player` lê os

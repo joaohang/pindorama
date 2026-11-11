@@ -41,6 +41,7 @@ namespace TwinHook
         private int movingRideCount;
         private Transform rideOriginalParent;
         private bool rideOriginalSimulated = true;
+        private float rideOriginalGravityScale = 1f;
 
         private readonly Collider2D[] groundResults = new Collider2D[8];
 
@@ -61,7 +62,7 @@ namespace TwinHook
 
         private void Start()
         {
-            hooks = FindObjectOfType<DualHookController>();
+            hooks = FindFirstObjectByType<DualHookController>();
         }
 
         /// <summary>
@@ -81,7 +82,9 @@ namespace TwinHook
 
                 if (rb != null)
                 {
+                    rideOriginalGravityScale = rb.gravityScale;
                     rb.linearVelocity = Vector2.zero;
+                    rb.gravityScale = 0f;
                     rb.simulated = false;
                 }
 
@@ -105,6 +108,7 @@ namespace TwinHook
             if (rb != null)
             {
                 rb.simulated = rideOriginalSimulated;
+                rb.gravityScale = rideOriginalGravityScale;
                 rb.position = transform.position;
                 rb.linearVelocity = Vector2.zero;
             }

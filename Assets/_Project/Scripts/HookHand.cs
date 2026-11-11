@@ -28,7 +28,7 @@ namespace TwinHook
         private float reelTarget;
         private float ropeLength;
 
-        private Vector2 visualAttachPoint;
+        private Vector2 visualAttachLocal;
         private bool hasVisualAttachPoint;
 
         public HookColor Color { get { return handColor; } }
@@ -40,9 +40,14 @@ namespace TwinHook
         {
             get
             {
+                if (anchor == null)
+                    return Vector2.zero;
+
+                // Ponto local: acompanha o movimento da âncora (Bola Amarela).
                 if (hasVisualAttachPoint)
-                    return visualAttachPoint;
-                return anchor != null ? anchor.AttachPoint : Vector2.zero;
+                    return (Vector2)anchor.transform.TransformPoint(visualAttachLocal);
+
+                return anchor.AttachPoint;
             }
         }
 
@@ -116,7 +121,8 @@ namespace TwinHook
 
             // Limite de esticamento: remove a velocidade que aponta para fora
             // da corda. O collider do jogador continua resolvendo o chão.
-            Vector2 delta = (Vector2)player.transform.position - anchor.AttachPoint;
+            Vector2 anchorPoint = VisualAttachPoint;
+            Vector2 delta = (Vector2)player.transform.position - anchorPoint;
             float distance = delta.magnitude;
             if (distance > 0.001f && distance > joint.distance * settings.maxStretch)
             {
@@ -183,7 +189,7 @@ namespace TwinHook
             anchor = a;
             State = HookHandState.Attached;
             AttachedAt = Time.time;
-            visualAttachPoint = impactPoint;
+            visualAttachLocal = a.transform.InverseTransformPoint(impactPoint);
             hasVisualAttachPoint = true;
 
             HookImpactVfx.Play(impactPoint, HookImpactVfx.ColorFor(handColor));
@@ -216,19 +222,21 @@ namespace TwinHook
             joint.breakTorque = Mathf.Infinity;
             joint.anchor = Vector2.zero;
 
+            Vector2 worldAttach = VisualAttachPoint;
+
             Rigidbody2D body = a.GetComponent<Rigidbody2D>();
             if (body != null)
             {
                 joint.connectedBody = body;
-                joint.connectedAnchor = a.transform.InverseTransformPoint(a.AttachPoint);
+                joint.connectedAnchor = a.transform.InverseTransformPoint(worldAttach);
             }
             else
             {
                 joint.connectedBody = null;
-                joint.connectedAnchor = a.AttachPoint;
+                joint.connectedAnchor = worldAttach;
             }
 
-            float dist = Vector2.Distance(player.transform.position, a.AttachPoint);
+            float dist = Vector2.Distance(player.transform.position, worldAttach);
             joint.distance = Mathf.Clamp(dist, settings.minRopeLength, settings.maxRopeLength);
             ropeLength = joint.distance;
 
@@ -238,7 +246,7 @@ namespace TwinHook
 
             if (settings.attachImpulse > 0f && playerBody != null)
             {
-                Vector2 dir = (a.AttachPoint - (Vector2)player.transform.position).normalized;
+                Vector2 dir = (worldAttach - (Vector2)player.transform.position).normalized;
                 playerBody.AddForce(dir * settings.attachImpulse, ForceMode2D.Impulse);
             }
         }
