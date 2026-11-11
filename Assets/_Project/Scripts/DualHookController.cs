@@ -96,6 +96,13 @@ namespace TwinHook
             ReleaseSwingIfReleased(redHand, redHeld);
             ReleaseSwingIfReleased(blueHand, blueHeld);
 
+            // Em puxáveis, segurar o botão mantém o puxão contínuo.
+            if (redHeld && redHand != null && redHand.IsPullable)
+                redHand.PrimaryCommand();
+
+            if (blueHeld && blueHand != null && blueHand.IsPullable)
+                blueHand.PrimaryCommand();
+
             if (redPending && Time.unscaledTime - redPressedAt > settings.dualChordWindow)
             {
                 redPending = false;

@@ -73,11 +73,15 @@ Level02
 - `HookPullable.useDynamicBody = true` (já configurado nas caixas da Level02).
 - O puxão aplica apenas **velocidade horizontal**; a gravidade continua puxando
   a caixa para baixo. Ela respeita plataformas, paredes e o chão.
-- `pullStopDistance` (1,5): distância horizontal mínima do jogador.
+- **Segure o botão** para puxar continuamente; soltar para de puxar.
 - `dynamicPullSpeed` (5): velocidade máxima do puxão.
 - `dynamicPullAcceleration` (45): rapidez com que a caixa chega nessa velocidade.
+- `dynamicPullOvershoot` (0,4): o alvo do puxão passa essa distância **além do
+  jogador**, para a caixa atravessar o buraco em vez de parar antes dele.
 - A caixa cai quando o centro dela passa da borda da plataforma. O trigger do
   pit precisa estar na **abertura do buraco** para pegar a caixa na queda.
+- **Posicionamento:** fique do lado do buraco em que a caixa deve cair, com o
+  buraco entre você e a caixa. O puxão sempre traz a caixa na sua direção.
 - Se quiser uma caixa que desliza sem gravidade (comportamento antigo), use
   `useDynamicBody = false`, `BoxIdentity.dynamicBody = false` e
   `Rigidbody2D.bodyType = Kinematic`.

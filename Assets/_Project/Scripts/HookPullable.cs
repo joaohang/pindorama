@@ -23,6 +23,8 @@ namespace TwinHook
         [SerializeField] private bool useDynamicBody = false;
         [SerializeField] private float dynamicPullSpeed = 5f;
         [SerializeField] private float dynamicPullAcceleration = 45f;
+        [Tooltip("Quanto o alvo passa do jogador na direção do puxão (para atravessar o buraco).")]
+        [SerializeField] private float dynamicPullOvershoot = 0.4f;
 
         private Rigidbody2D rb;
         private Collider2D ownCollider;
@@ -47,6 +49,8 @@ namespace TwinHook
                 rb.constraints |= RigidbodyConstraints2D.FreezeRotation;
                 if (rb.gravityScale <= 0.01f)
                     rb.gravityScale = 1f;
+                if (dynamicPullOvershoot <= 0.01f)
+                    dynamicPullOvershoot = 0.4f;
             }
             else
             {
@@ -81,6 +85,8 @@ namespace TwinHook
                 rb.constraints |= RigidbodyConstraints2D.FreezeRotation;
                 if (rb.gravityScale <= 0.01f)
                     rb.gravityScale = 1f;
+                if (dynamicPullOvershoot <= 0.01f)
+                    dynamicPullOvershoot = 0.4f;
             }
             else
             {
@@ -160,6 +166,7 @@ namespace TwinHook
             }
 
             float direction = Mathf.Sign(dx);
+            rb.WakeUp();
             Vector2 velocity = rb.linearVelocity;
             velocity.x = Mathf.MoveTowards(
                 velocity.x,
@@ -181,14 +188,17 @@ namespace TwinHook
             if (useDynamicBody)
             {
                 float dx = player.transform.position.x - rb.position.x;
-                if (Mathf.Abs(dx) <= pullStopDistance + 0.05f)
+                if (Mathf.Abs(dx) < 0.2f)
                     return false;
 
                 float direction = Mathf.Sign(dx);
+                // Alvo do outro lado do jogador: garante que a caixa atravesse
+                // o buraco em vez de parar antes dele.
                 target = new Vector2(
-                    player.transform.position.x - direction * pullStopDistance,
+                    player.transform.position.x + direction * dynamicPullOvershoot,
                     rb.position.y);
 
+                rb.WakeUp();
                 isPulling = true;
                 nextPullTime = Time.time + pullCooldown;
                 return true;
