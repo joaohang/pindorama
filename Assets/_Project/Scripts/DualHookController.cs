@@ -121,7 +121,7 @@ namespace TwinHook
             if (playerTrail == null && player != null)
                 playerTrail = player.GetComponent<PlayerTrail>();
             if (speedLines == null)
-                speedLines = FindObjectOfType<SpeedLinesOverlay>();
+                speedLines = FindAnyObjectByType<SpeedLinesOverlay>();
 
             if (!IsSwinging || (player != null && player.IsGrounded))
                 nextBoostTime = 0f;

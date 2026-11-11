@@ -37,7 +37,7 @@ namespace TwinHook
             rb = GetComponent<Rigidbody2D>();
             pullable = GetComponent<HookPullable>();
             colliders = GetComponents<Collider2D>();
-            hooks = FindObjectOfType<DualHookController>();
+            hooks = FindAnyObjectByType<DualHookController>();
 
             if (spawnPosition == Vector2.zero)
                 spawnPosition = transform.position;
@@ -125,7 +125,7 @@ namespace TwinHook
                 return;
 
             if (hooks == null)
-                hooks = FindObjectOfType<DualHookController>();
+                hooks = FindAnyObjectByType<DualHookController>();
 
             if (hooks != null)
                 hooks.ReleaseHooksAttachedTo(anchor);

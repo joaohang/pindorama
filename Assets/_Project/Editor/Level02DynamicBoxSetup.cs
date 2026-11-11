@@ -17,7 +17,7 @@ namespace TwinHook.Editor
         {
             var scene = EditorSceneManager.OpenScene("Assets/_Project/Scenes/Level02.unity");
 
-            BoxIdentity[] boxes = Object.FindObjectsOfType<BoxIdentity>();
+            BoxIdentity[] boxes = Object.FindObjectsByType<BoxIdentity>();
             foreach (BoxIdentity box in boxes)
             {
                 GameObject go = box.gameObject;

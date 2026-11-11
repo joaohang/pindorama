@@ -174,7 +174,7 @@ namespace TwinHook
 
         private void EnsureLight()
         {
-            if (FindObjectOfType<Light>() == null)
+            if (FindAnyObjectByType<Light>() == null)
             {
                 GameObject go = new GameObject("Light");
                 Light light = go.AddComponent<Light>();

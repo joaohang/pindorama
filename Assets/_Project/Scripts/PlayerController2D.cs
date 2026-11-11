@@ -43,7 +43,6 @@ namespace TwinHook
         private bool rideOriginalSimulated = true;
         private float rideOriginalGravityScale = 1f;
 
-        private readonly Collider2D[] groundResults = new Collider2D[8];
 
         public bool IsGrounded { get; private set; }
         public bool IsBraced { get { return isBraced; } }
@@ -62,7 +61,7 @@ namespace TwinHook
 
         private void Start()
         {
-            hooks = FindFirstObjectByType<DualHookController>();
+            hooks = FindAnyObjectByType<DualHookController>();
         }
 
         /// <summary>
@@ -229,11 +228,11 @@ namespace TwinHook
             float radius = col.bounds.extents.x * 0.9f;
             Vector2 origin = (Vector2)transform.position - new Vector2(0f, col.bounds.extents.y + 0.01f);
 
-            int n = Physics2D.OverlapCircleNonAlloc(origin, radius, groundResults);
+            Collider2D[] results = Physics2D.OverlapCircleAll(origin, radius);
             IsGrounded = false;
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < results.Length; i++)
             {
-                Collider2D c = groundResults[i];
+                Collider2D c = results[i];
                 if (c == null || c == col)
                     continue;
                 if (c.isTrigger)
