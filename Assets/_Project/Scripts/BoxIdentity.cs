@@ -136,6 +136,9 @@ namespace TwinHook
             snapping = false;
             snapped = false;
 
+            // Se a caixa for resetada com um gancho preso, solta o cabo também.
+            ReleaseHooks();
+
             if (pullable != null)
                 pullable.SetLocked(false);
 
