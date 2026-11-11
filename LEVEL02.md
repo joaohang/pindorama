@@ -56,12 +56,12 @@ Level02
   `WrongBoxEntered` e o puzzle falha.
 - **Laser**: `LaserHazard.SetActive(false)` desliga beam, glow e collider de uma
   vez. O `BoxSyncPuzzle` chama isso permanentemente no sucesso.
-- **Bola Amarela (Moving Platform Parenting):** ao prender, o `HookHand` detecta
-  o `MovingAnchor` e chama `PlayerController2D.BeginMovingRide`: o jogador vira
-  **filho** do transform da bola, `gravityScale = 0` e `Rigidbody2D.simulated =
-  false`. Assim ele é transportado junto, sem escorregar. Ao soltar (botão,
-  `Espaço`, `Ctrl` ou reset), `EndMovingRide` restaura parent, gravidade,
-  posição e `simulated`.
+- **Bola Amarela (âncora móvel com swing):** usa o mesmo `DistanceJoint2D` das
+  plataformas, com `connectedBody` = `Rigidbody2D` da bola e
+  `connectedAnchor` no ponto local do impacto. O jogador **balança** e é
+  carregado pelo movimento vertical da bola; continua dinâmico, então colide
+  com o chão normalmente e **não atravessa**. Soltar o botão/`Espaço`/`Ctrl`
+  remove o joint e o jogador cai.
 - **Ponto de ancoragem:** o gancho guarda o ponto exato do `hit.point` em
   **coordenadas locais** da âncora (`InverseTransformPoint`) e converte de volta
   com `TransformPoint` a cada frame. Por isso a corda acompanha a bola e não
