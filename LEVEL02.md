@@ -58,14 +58,13 @@ Level02
   vez. O `BoxSyncPuzzle` chama isso permanentemente no sucesso.
 - **Bola Amarela (âncora móvel com swing):** usa o mesmo `DistanceJoint2D` das
   plataformas, com `connectedBody` = `Rigidbody2D` da bola e
-  `connectedAnchor` no ponto local do impacto. O jogador **balança** e é
-  carregado pelo movimento vertical da bola; continua dinâmico, então colide
-  com o chão normalmente e **não atravessa**. Soltar o botão/`Espaço`/`Ctrl`
-  remove o joint e o jogador cai.
-- **Ponto de ancoragem:** o gancho guarda o ponto exato do `hit.point` em
-  **coordenadas locais** da âncora (`InverseTransformPoint`) e converte de volta
-  com `TransformPoint` a cada frame. Por isso a corda acompanha a bola e não
-  corta o collider nem fica no centro.
+  **pivô no centro da bola** (`HookAnchor.AttachPoint`), não no ponto lateral
+  do raio. O jogador **balança** e é carregado pelo movimento vertical; continua
+  dinâmico, então colide com o chão e **não atravessa**. Soltar remove o joint.
+- **Ponto de ancoragem:** para âncoras móveis (`MovingAnchor`), o pivô é o
+  centro da âncora. Para âncoras estáticas, o gancho guarda o `hit.point` em
+  coordenadas locais (`InverseTransformPoint`) e converte com `TransformPoint`
+  a cada frame — a corda acompanha o movimento sem cortar o collider.
 - **Espinhos**: um único `BoxCollider2D` trigger cobre a faixa; os sprites dos
   espinhos são apenas visuais.
 - **Collider do jogador**: o componente `PlayerBodyAlignment` no `Player` lê os

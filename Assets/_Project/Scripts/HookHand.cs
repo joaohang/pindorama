@@ -188,7 +188,15 @@ namespace TwinHook
             anchor = a;
             State = HookHandState.Attached;
             AttachedAt = Time.time;
-            visualAttachLocal = a.transform.InverseTransformPoint(impactPoint);
+
+            // Bola Amarela / âncora móvel: usa o ponto central da âncora como
+            // pivô físico, em vez do ponto lateral onde o raio bateu. Isso
+            // evita um pivô deslocado e um swing com física estranha.
+            Vector2 attachWorld = impactPoint;
+            if (a.GetComponentInParent<MovingAnchor>() != null)
+                attachWorld = a.AttachPoint;
+
+            visualAttachLocal = a.transform.InverseTransformPoint(attachWorld);
             hasVisualAttachPoint = true;
 
             HookImpactVfx.Play(impactPoint, HookImpactVfx.ColorFor(handColor));
