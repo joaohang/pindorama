@@ -26,7 +26,7 @@ namespace TwinHook
             settings.range = 8f;
             settings.cooldown = 0.12f;
             settings.failCooldown = 0.18f;
-            settings.dualChordWindow = 0.07f;
+            settings.dualChordWindow = 0.2f;
             settings.minRopeLength = 1.5f;
             settings.maxRopeLength = 10f;
             settings.swingAcceleration = 30f;

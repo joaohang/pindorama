@@ -438,7 +438,7 @@ namespace TwinHook.Editor
             asset.range = 10f;
             asset.cooldown = 0.12f;
             asset.failCooldown = 0.18f;
-            asset.dualChordWindow = 0.07f;
+            asset.dualChordWindow = 0.2f;
             asset.hitMask = ~0;
             asset.minRopeLength = 1.5f;
             asset.maxRopeLength = 12f;

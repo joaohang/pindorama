@@ -60,6 +60,13 @@ namespace TwinHook
         public bool BoostReady { get { return Time.time >= nextBoostTime; } }
         public float BoostCooldownRemaining { get { return Mathf.Max(0f, nextBoostTime - Time.time); } }
 
+        // Janela do disparo espelhado. 0.2 s dá tempo de apertar os dois botões
+        // na ordem que for (azul primeiro inclusive) sem virar dois tiros solo.
+        private float ChordWindow
+        {
+            get { return Mathf.Max(0.2f, settings != null ? settings.dualChordWindow : 0.2f); }
+        }
+
         private void Awake()
         {
             if (player != null)
@@ -103,13 +110,13 @@ namespace TwinHook
             if (blueHeld && blueHand != null && blueHand.IsPullable)
                 blueHand.PrimaryCommand();
 
-            if (redPending && Time.unscaledTime - redPressedAt > settings.dualChordWindow)
+            if (redPending && Time.unscaledTime - redPressedAt > ChordWindow)
             {
                 redPending = false;
                 FireSingle(redHand);
             }
 
-            if (bluePending && Time.unscaledTime - bluePressedAt > settings.dualChordWindow)
+            if (bluePending && Time.unscaledTime - bluePressedAt > ChordWindow)
             {
                 bluePending = false;
                 FireSingle(blueHand);
@@ -334,7 +341,7 @@ namespace TwinHook
             if (!redPending || !bluePending)
                 return;
 
-            if (Mathf.Abs(redPressedAt - bluePressedAt) > settings.dualChordWindow)
+            if (Mathf.Abs(redPressedAt - bluePressedAt) > ChordWindow)
                 return;
 
             redPending = false;

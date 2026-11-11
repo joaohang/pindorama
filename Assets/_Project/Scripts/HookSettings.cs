@@ -13,7 +13,7 @@ namespace TwinHook
         public float range = 8f;
         public float cooldown = 0.12f;
         public float failCooldown = 0.18f;
-        public float dualChordWindow = 0.07f;
+        public float dualChordWindow = 0.2f;
         public LayerMask hitMask = ~0;
 
         [Header("Corda (Swing)")]
