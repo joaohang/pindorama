@@ -349,6 +349,33 @@ namespace TwinHook
             blueHand.TryFire(origin, -aimDirection, playerCollider);
         }
 
+        /// <summary>
+        /// Solta apenas as mãos presas em uma âncora específica. Usado quando
+        /// uma caixa encaixa no pit: o cabo não fica pendurado no nada.
+        /// </summary>
+        public void ReleaseHooksAttachedTo(HookAnchor target)
+        {
+            if (target == null)
+                return;
+
+            bool changed = false;
+
+            if (redHand != null && redHand.Anchor == target)
+            {
+                redHand.ForceDetach(DetachReason.AnchorLost);
+                changed = true;
+            }
+
+            if (blueHand != null && blueHand.Anchor == target)
+            {
+                blueHand.ForceDetach(DetachReason.AnchorLost);
+                changed = true;
+            }
+
+            if (changed)
+                UpdateBrace();
+        }
+
         public void ReleaseAll(DetachReason reason)
         {
             if (player != null && player.IsBraced)

@@ -82,6 +82,8 @@ Level02
   pit precisa estar na **abertura do buraco** para pegar a caixa na queda.
 - **Posicionamento:** fique do lado do buraco em que a caixa deve cair, com o
   buraco entre você e a caixa. O puxão sempre traz a caixa na sua direção.
+- **Ao encaixar**, o `BoxIdentity` solta automaticamente qualquer gancho preso
+  naquela caixa (`ReleaseHooks`), para o cabo não ficar pendurado no nada.
 - Se quiser uma caixa que desliza sem gravidade (comportamento antigo), use
   `useDynamicBody = false`, `BoxIdentity.dynamicBody = false` e
   `Rigidbody2D.bodyType = Kinematic`.

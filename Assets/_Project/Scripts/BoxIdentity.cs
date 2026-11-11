@@ -18,6 +18,7 @@ namespace TwinHook
         private Rigidbody2D rb;
         private HookPullable pullable;
         private Collider2D[] colliders;
+        private DualHookController hooks;
         private float initialGravityScale = 1f;
 
         private Vector2 snapStart;
@@ -36,6 +37,7 @@ namespace TwinHook
             rb = GetComponent<Rigidbody2D>();
             pullable = GetComponent<HookPullable>();
             colliders = GetComponents<Collider2D>();
+            hooks = FindObjectOfType<DualHookController>();
 
             if (spawnPosition == Vector2.zero)
                 spawnPosition = transform.position;
@@ -92,6 +94,9 @@ namespace TwinHook
             snapElapsed = 0f;
             snapDuration = Mathf.Max(0.01f, duration);
 
+            // Solta qualquer gancho preso nesta caixa; evita cabo pendurado no nada.
+            ReleaseHooks();
+
             if (pullable != null)
                 pullable.SetLocked(true);
 
@@ -111,6 +116,19 @@ namespace TwinHook
                         colliders[i].enabled = false;
                 }
             }
+        }
+
+        public void ReleaseHooks()
+        {
+            HookAnchor anchor = GetComponent<HookAnchor>();
+            if (anchor == null)
+                return;
+
+            if (hooks == null)
+                hooks = FindObjectOfType<DualHookController>();
+
+            if (hooks != null)
+                hooks.ReleaseHooksAttachedTo(anchor);
         }
 
         public void ResetBox()
