@@ -40,6 +40,11 @@ namespace TwinHook
             go.transform.SetParent(parent, false);
 
             ParticleSystem ps = go.AddComponent<ParticleSystem>();
+
+            // AddComponent dispara o sistema por padrão; paramos/limpamos antes
+            // de configurar a duração (evita warning do ParticleSystem).
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
             ParticleSystem.MainModule main = ps.main;
             main.playOnAwake = false;
             main.duration = 0.1f;
@@ -79,6 +84,11 @@ namespace TwinHook
             go.transform.SetParent(parent, false);
 
             ParticleSystem ps = go.AddComponent<ParticleSystem>();
+
+            // AddComponent dispara o sistema por padrão; paramos/limpamos antes
+            // de configurar a duração (evita warning do ParticleSystem).
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
             ParticleSystem.MainModule main = ps.main;
             main.playOnAwake = false;
             main.duration = 0.15f;
