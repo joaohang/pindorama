@@ -390,6 +390,16 @@ namespace TwinHook
                 UpdateBrace();
         }
 
+        public void ResetAirResources()
+        {
+            if (redHand != null)
+                redHand.ResetCooldown();
+            if (blueHand != null)
+                blueHand.ResetCooldown();
+
+            nextBoostTime = 0f;
+        }
+
         public void ReleaseAll(DetachReason reason)
         {
             if (player != null && player.IsBraced)

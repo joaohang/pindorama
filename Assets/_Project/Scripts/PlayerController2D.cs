@@ -31,6 +31,7 @@ namespace TwinHook
         private Rigidbody2D rb;
         private Collider2D col;
         private DualHookController hooks;
+        private WallClingController wallCling;
 
         private bool isBraced;
         private float cachedGravityScale;
@@ -48,6 +49,16 @@ namespace TwinHook
         public bool IsBraced { get { return isBraced; } }
         public bool IsRidingMovingAnchor { get { return movingRideCount > 0; } }
         public float Speed { get { return rb != null ? rb.GetVelocity().magnitude : 0f; } }
+
+        private WallClingController WallCling
+        {
+            get
+            {
+                if (wallCling == null)
+                    wallCling = GetComponent<WallClingController>();
+                return wallCling;
+            }
+        }
 
         private void Awake()
         {
@@ -115,6 +126,9 @@ namespace TwinHook
 
         private void Update()
         {
+            if (WallCling != null && WallCling.IsClinging)
+                return;
+
             horizontal = Input.GetAxisRaw("Horizontal");
 
             bool jumpPressed =
@@ -170,6 +184,9 @@ namespace TwinHook
         /// </summary>
         private void UpdateGravity()
         {
+            if (WallCling != null && WallCling.IsClinging)
+                return;
+
             if (isBraced || IsRidingMovingAnchor)
                 return;
 
@@ -182,6 +199,9 @@ namespace TwinHook
 
         private void FixedUpdate()
         {
+            if (WallCling != null && WallCling.IsClinging)
+                return;
+
             if (IsRidingMovingAnchor)
                 return;
 

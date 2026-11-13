@@ -42,8 +42,10 @@ namespace TwinHook
 
             // --- Estrutura da sala (corredor longo para testar swing) ---
             CreateStaticBox("Chão", new Vector2(0f, -3f), new Vector2(46f, 1f), new Color(0.28f, 0.31f, 0.38f));
-            CreateStaticBox("ParedeEsquerda", new Vector2(-20f, 6f), new Vector2(1f, 18f), new Color(0.22f, 0.24f, 0.30f));
-            CreateStaticBox("ParedeDireita", new Vector2(20f, 6f), new Vector2(1f, 18f), new Color(0.22f, 0.24f, 0.30f));
+            GameObject leftWall = CreateStaticBox("ParedeEsquerda", new Vector2(-20f, 6f), new Vector2(1f, 18f), new Color(0.22f, 0.24f, 0.30f));
+            GameObject rightWall = CreateStaticBox("ParedeDireita", new Vector2(20f, 6f), new Vector2(1f, 18f), new Color(0.22f, 0.24f, 0.30f));
+            MakeClimbable(leftWall);
+            MakeClimbable(rightWall);
 
             // --- Corredor de âncoras de swing (estilo homem-aranha) ---
             CreateSwingAnchor("Ancora_12_R", new Vector2(-12f, 5.8f), HookColor.Red);
@@ -116,6 +118,8 @@ namespace TwinHook
             controller.Configure(player, settings, redHand, blueHand);
             controller.SetBraceRule(braceOnlyWithPullable);
 
+            playerGO.AddComponent<WallClingController>();
+
             // --- Room reset ---
             GameObject roomGO = new GameObject("RoomController");
             RoomController room = roomGO.AddComponent<RoomController>();
@@ -148,6 +152,19 @@ namespace TwinHook
             if (follow == null)
                 follow = cam.gameObject.AddComponent<CameraFollow>();
             follow.Configure(playerGO.transform);
+        }
+
+        private void MakeClimbable(GameObject wall)
+        {
+            int layer = LayerMask.NameToLayer("ClimbableWall");
+            if (layer >= 0)
+                wall.layer = layer;
+
+            if (wall.GetComponent<HookAnchor>() == null)
+            {
+                HookAnchor anchor = wall.AddComponent<HookAnchor>();
+                anchor.Configure(HookColor.Neutral, HookAnchorMotion.Swing);
+            }
         }
 
         private Camera EnsureCamera()

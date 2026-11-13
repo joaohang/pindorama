@@ -581,6 +581,7 @@ GameObject:
   - component: {fileID: 126082150}
   - component: {fileID: 126082149}
   - component: {fileID: 126082155}
+  - component: {fileID: 126082156}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -854,6 +855,29 @@ MonoBehaviour:
   fitOffset: 1
   lockVisualRotation: 1
   padding: {x: 0, y: 0}
+--- !u!114 &126082156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 126082147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8187217e7b5d4055885b5e911153c5cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TwinHook.WallClingController
+  climbableMask:
+    serializedVersion: 2
+    m_Bits: 0
+  wallCheckDistance: 0.35
+  wallCheckHeight: 0.5
+  chestOffsetY: 0.35
+  waistOffsetY: -0.25
+  regrabCooldown: 0.2
+  wallJumpForceX: 12
+  wallJumpForceY: 15
+  visual: {fileID: 0}
 --- !u!1 &257915771
 GameObject:
   m_ObjectHideFlags: 0
@@ -1189,7 +1213,8 @@ GameObject:
   - component: {fileID: 373394542}
   - component: {fileID: 373394544}
   - component: {fileID: 373394543}
-  m_Layer: 0
+  - component: {fileID: 373394545}
+  m_Layer: 8
   m_Name: ParedeDireita
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1317,6 +1342,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &373394545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373394541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66b91c0e7d84c934ca58589d85d0dbcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TwinHook.HookAnchor
+  color: 2
+  motion: 0
+  attachPoint: {fileID: 0}
 --- !u!1 &375496820
 GameObject:
   m_ObjectHideFlags: 0
@@ -7552,7 +7592,8 @@ GameObject:
   - component: {fileID: 1683776715}
   - component: {fileID: 1683776717}
   - component: {fileID: 1683776716}
-  m_Layer: 0
+  - component: {fileID: 1683776718}
+  m_Layer: 8
   m_Name: ParedeEsquerda
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7680,6 +7721,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &1683776718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683776714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66b91c0e7d84c934ca58589d85d0dbcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TwinHook.HookAnchor
+  color: 2
+  motion: 0
+  attachPoint: {fileID: 0}
 --- !u!1 &1684204928
 GameObject:
   m_ObjectHideFlags: 0

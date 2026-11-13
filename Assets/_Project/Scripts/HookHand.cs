@@ -305,6 +305,11 @@ namespace TwinHook
                 ropeView.PlaySnap();
         }
 
+        public void ResetCooldown()
+        {
+            nextFireTime = 0f;
+        }
+
         public void ForceDetach(DetachReason reason)
         {
             if (joint != null)
