@@ -29,10 +29,9 @@ namespace TwinHook
         private PlayerTrail playerTrail;
         private SpeedLinesOverlay speedLines;
 
-        private float redPressedAt = -1f;
-        private float bluePressedAt = -1f;
-        private bool redPending;
-        private bool bluePending;
+        private HookHand lastShotHand;
+        private bool lastShotWasAim;
+        private float lastShotTime = -999f;
 
         public bool AnyAttached
         {
@@ -109,18 +108,6 @@ namespace TwinHook
 
             if (blueHeld && blueHand != null && blueHand.IsPullable)
                 blueHand.PrimaryCommand();
-
-            if (redPending && Time.unscaledTime - redPressedAt > ChordWindow)
-            {
-                redPending = false;
-                FireSingle(redHand);
-            }
-
-            if (bluePending && Time.unscaledTime - bluePressedAt > ChordWindow)
-            {
-                bluePending = false;
-                FireSingle(blueHand);
-            }
 
             UpdateBrace();
 
@@ -318,9 +305,7 @@ namespace TwinHook
                 return;
             }
 
-            redPressedAt = Time.unscaledTime;
-            redPending = true;
-            TryResolveChord();
+            TryFireHand(redHand);
         }
 
         private void OnBluePressed()
@@ -331,65 +316,53 @@ namespace TwinHook
                 return;
             }
 
-            bluePressedAt = Time.unscaledTime;
-            bluePending = true;
-            TryResolveChord();
+            TryFireHand(blueHand);
         }
 
-        private void TryResolveChord()
+        /// <summary>
+        /// Dispara imediatamente (sem esperar a janela do espelhado). Se a
+        /// outra mão disparou nos últimos ChordWindow segundos, esta dispara
+        /// no lado oposto para formar o par espelhado.
+        /// </summary>
+        private void TryFireHand(HookHand hand)
         {
-            if (!redPending || !bluePending)
+            if (hand == null || hand.IsAttached)
                 return;
 
-            if (Mathf.Abs(redPressedAt - bluePressedAt) > ChordWindow)
-                return;
+            Vector2 origin = FireOrigin();
+            HookHand other = hand == redHand ? blueHand : redHand;
 
-            redPending = false;
-            bluePending = false;
-            FireDual();
+            bool complement = lastShotHand != null &&
+                              lastShotHand == other &&
+                              Time.unscaledTime - lastShotTime <= ChordWindow;
+
+            if (complement)
+            {
+                Vector2 dir = lastShotWasAim ? -aimDirection : aimDirection;
+                hand.TryFire(origin, dir, playerCollider);
+
+                // Consome o encadeamento para não virar um terceiro tiro.
+                lastShotHand = null;
+                lastShotTime = -999f;
+                return;
+            }
+
+            HookAnchor aimAnchor = hand.PeekAnchor(origin, aimDirection, playerCollider);
+            bool acceptsAim = aimAnchor == null || aimAnchor.Accepts(hand.Color);
+            Vector2 direction = acceptsAim ? aimDirection : -aimDirection;
+
+            if (hand.TryFire(origin, direction, playerCollider))
+            {
+                lastShotHand = hand;
+                lastShotWasAim = acceptsAim;
+                lastShotTime = Time.unscaledTime;
+            }
         }
 
         private Vector2 FireOrigin()
         {
             return (Vector2)player.transform.position + aimDirection * 0.1f;
         }
-
-        private void FireSingle(HookHand hand)
-        {
-            hand.TryFire(FireOrigin(), aimDirection, playerCollider);
-        }
-
-        private void FireDual()
-        {
-            Vector2 origin = FireOrigin();
-
-            // Olha os dois lados antes de disparar. Se a mira estiver em uma
-            // âncora azul, a mão azul vai na mira e a vermelha no lado oposto.
-            // Se estiver em vermelho (ou neutra), mantém vermelho na mira.
-            HookAnchor aimAnchor = redHand.PeekAnchor(origin, aimDirection, playerCollider);
-            HookAnchor oppositeAnchor = redHand.PeekAnchor(origin, -aimDirection, playerCollider);
-
-            bool redAimValid = aimAnchor == null || aimAnchor.Accepts(HookColor.Red);
-            bool blueOppositeValid = oppositeAnchor == null || oppositeAnchor.Accepts(HookColor.Blue);
-            bool blueAimValid = aimAnchor == null || aimAnchor.Accepts(HookColor.Blue);
-            bool redOppositeValid = oppositeAnchor == null || oppositeAnchor.Accepts(HookColor.Red);
-
-            bool redAimOption = redAimValid && blueOppositeValid;
-            bool blueAimOption = blueAimValid && redOppositeValid;
-            bool blueGoesToAim = !redAimOption && blueAimOption;
-
-            if (blueGoesToAim)
-            {
-                blueHand.TryFire(origin, aimDirection, playerCollider);
-                redHand.TryFire(origin, -aimDirection, playerCollider);
-            }
-            else
-            {
-                redHand.TryFire(origin, aimDirection, playerCollider);
-                blueHand.TryFire(origin, -aimDirection, playerCollider);
-            }
-        }
-
         /// <summary>
         /// Solta apenas as mãos presas em uma âncora específica. Usado quando
         /// uma caixa encaixa no pit: o cabo não fica pendurado no nada.

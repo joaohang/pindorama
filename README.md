@@ -61,11 +61,11 @@ Bola Amarela são **objetos reais da hierarquia** (sem `GameBootstrap`).
 - **Corda com limite de esticamento** e colisão com o chão: se a corda estica
   demais, a velocidade para fora é cortada; se o jogador ainda encosta no chão,
   o collider continua segurando (não atravessa).
-- **Disparo espelhado:** mire na âncora desejada e aperte LMB+RMB com até
-  **0,2 s** de diferença, em qualquer ordem. A **mão da cor da âncora mirada**
-  vai na mira e a outra vai no lado oposto (mira azul → azul na mira, vermelho
-  atrás; mira vermelha → vermelho na mira, azul atrás). Segure os dois botões
-  para manter os dois ganchos.
+- **Disparo espelhado:** o **primeiro clique dispara na hora**, sem espera.
+  Aperte o segundo em até **0,2 s** para ele sair no lado oposto e completar o
+  par. A mão que aceita a cor da âncora mirada vai na mira; a outra vai no
+  oposto (mira azul → azul na mira e vermelho atrás; mira vermelha → vermelho
+  na mira e azul atrás). Segure os dois botões para manter os dois ganchos.
 - **Puxável (bloco vermelho/azul):** com **um** gancho preso, o jogador **não
   trava**: continua andando/caindo normalmente. Cada aperto no botão daquela mão
   arrasta o bloco um passo; o botão **nunca solta**. `Espaço`/`Ctrl` solta.
