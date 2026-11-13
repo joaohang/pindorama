@@ -183,6 +183,28 @@ namespace TwinHook
             return null;
         }
 
+        /// <summary>
+        /// Olha o primeiro alvo no raio sem disparar, para o disparo espelhado
+        /// decidir qual mão vai na direção da mira (vermelho ou azul).
+        /// </summary>
+        public HookAnchor PeekAnchor(Vector2 origin, Vector2 direction, Collider2D playerCollider)
+        {
+            RaycastHit2D[] buffer = new RaycastHit2D[16];
+            int n = Physics2D.RaycastNonAlloc(origin, direction, buffer, settings.range, settings.hitMask);
+
+            for (int i = 0; i < n; i++)
+            {
+                Collider2D c = buffer[i].collider;
+                if (c == null || c == playerCollider)
+                    continue;
+
+                // Primeiro hit que não é o jogador decide: parede bloqueia.
+                return c.GetComponent<HookAnchor>();
+            }
+
+            return null;
+        }
+
         private void Attach(HookAnchor a, Vector2 impactPoint)
         {
             anchor = a;

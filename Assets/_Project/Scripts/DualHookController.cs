@@ -362,8 +362,32 @@ namespace TwinHook
         private void FireDual()
         {
             Vector2 origin = FireOrigin();
-            redHand.TryFire(origin, aimDirection, playerCollider);
-            blueHand.TryFire(origin, -aimDirection, playerCollider);
+
+            // Olha os dois lados antes de disparar. Se a mira estiver em uma
+            // âncora azul, a mão azul vai na mira e a vermelha no lado oposto.
+            // Se estiver em vermelho (ou neutra), mantém vermelho na mira.
+            HookAnchor aimAnchor = redHand.PeekAnchor(origin, aimDirection, playerCollider);
+            HookAnchor oppositeAnchor = redHand.PeekAnchor(origin, -aimDirection, playerCollider);
+
+            bool redAimValid = aimAnchor == null || aimAnchor.Accepts(HookColor.Red);
+            bool blueOppositeValid = oppositeAnchor == null || oppositeAnchor.Accepts(HookColor.Blue);
+            bool blueAimValid = aimAnchor == null || aimAnchor.Accepts(HookColor.Blue);
+            bool redOppositeValid = oppositeAnchor == null || oppositeAnchor.Accepts(HookColor.Red);
+
+            bool redAimOption = redAimValid && blueOppositeValid;
+            bool blueAimOption = blueAimValid && redOppositeValid;
+            bool blueGoesToAim = !redAimOption && blueAimOption;
+
+            if (blueGoesToAim)
+            {
+                blueHand.TryFire(origin, aimDirection, playerCollider);
+                redHand.TryFire(origin, -aimDirection, playerCollider);
+            }
+            else
+            {
+                redHand.TryFire(origin, aimDirection, playerCollider);
+                blueHand.TryFire(origin, -aimDirection, playerCollider);
+            }
         }
 
         /// <summary>
