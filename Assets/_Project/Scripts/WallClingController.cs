@@ -20,6 +20,10 @@ namespace TwinHook
         [SerializeField] private float waistOffsetY = -0.25f;
         [SerializeField] private float regrabCooldown = 0.2f;
 
+        [Header("Movimento na parede")]
+        [SerializeField] private float climbUpSpeed = 2f;
+        [SerializeField] private float climbDownSpeed = 3.2f;
+
         [Header("Wall Jump")]
         [SerializeField] private float wallJumpForceX = 12f;
         [SerializeField] private float wallJumpForceY = 15f;
@@ -188,9 +192,7 @@ namespace TwinHook
             bool jump = Input.GetKeyDown(KeyCode.Space) ||
                         (Input.GetJoystickNames().Length > 0 && Input.GetKeyDown(KeyCode.JoystickButton0));
 
-            bool drop = Input.GetKeyDown(KeyCode.S) ||
-                        Input.GetKeyDown(KeyCode.DownArrow) ||
-                        Input.GetKeyDown(KeyCode.LeftControl) ||
+            bool drop = Input.GetKeyDown(KeyCode.LeftControl) ||
                         (Input.GetJoystickNames().Length > 0 && Input.GetKeyDown(KeyCode.JoystickButton1));
 
             if (jump)
@@ -205,7 +207,36 @@ namespace TwinHook
             if (drop)
             {
                 ExitCling();
+                return;
             }
+
+            // Sobe devagar e desce escorregando um pouco mais rápido.
+            float vertical = Input.GetAxisRaw("Vertical");
+            if (vertical > 0.1f)
+            {
+                rb.linearVelocity = new Vector2(0f, climbUpSpeed);
+            }
+            else if (vertical < -0.1f)
+            {
+                if (GroundBelow())
+                {
+                    ExitCling();
+                    return;
+                }
+
+                rb.linearVelocity = new Vector2(0f, -climbDownSpeed);
+            }
+            else
+            {
+                rb.linearVelocity = Vector2.zero;
+            }
+        }
+
+        private bool GroundBelow()
+        {
+            Vector2 origin = (Vector2)transform.position + Vector2.down * 0.95f;
+            RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, 0.2f);
+            return hit.collider != null && !hit.collider.isTrigger;
         }
 
         private void ExitCling()

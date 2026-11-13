@@ -77,8 +77,13 @@ Level02
 
 ## Wall Cling (paredes escaláveis)
 
-- Layer **`ClimbableWall`** (layer 8). As paredes externas `ParedeEsquerda` e
-  `ParedeDireita` estão nessa layer e têm `HookAnchor` (Neutral/Swing).
+- Layer **`ClimbableWall`** (layer 8).
+- `ParedeEsquerda` é toda escalável (teal).
+- `ParedeDireita` foi dividida em **dois segmentos**:
+  - `ParedeDireita_Grimpavel` (baixo, **teal**): layer `ClimbableWall` +
+    `HookAnchor`; sobe/desce e aceita gancho.
+  - `ParedeDireita_Comum` (cima, **cinza escuro**): layer `Default`, sem
+    `HookAnchor`; não gruda e o gancho não prende.
 - O `Player` tem o componente **`WallClingController`**.
 - Detecção: dois `Raycast2D` (peito e cintura) na direção do movimento/face,
   exigindo o **mesmo collider** e normal horizontal. Não usa
@@ -88,9 +93,12 @@ Level02
   - está sendo puxado por um gancho preso na parede.
 - Ao agarrar: velocidade zerada, `gravityScale = 0`, `FreezePositionX`, solta
   ganchos, reseta cooldown de gancho/boost e trava o visual virado para a parede.
+- **Subir/descer:** `W`/`S` ou `↑`/`↓` (stick vertical). Sobe devagar
+  (`climbUpSpeed = 2`) e desce escorregando um pouco mais rápido
+  (`climbDownSpeed = 3.2`). Sem input, fica parado.
 - **Wall Jump:** `Espaço`/A → impulso diagonal para longe da parede
   (`normal * wallJumpForceX`, `wallJumpForceY`), restaurando a gravidade.
-- **Soltar:** `S`, `↓` ou `Ctrl`/B → solta e cai.
+- **Soltar:** `Ctrl`/B → solta e cai. (`S`/`↓` agora serve para descer.)
 - **Gancho na parede:** mire e dispare; assim que o gancho prende, o
   `WallClingController` sai do estado e o joint puxa o jogador.
 - **Re-grab cooldown:** 0,2 s após pular/soltar/sair, para não grudar de novo no

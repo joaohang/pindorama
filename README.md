@@ -35,7 +35,9 @@ Bola Amarela são **objetos reais da hierarquia** (sem `GameBootstrap`).
 | Pular / soltar ganchos | `Espaço` | `A` |
 | Boost de pêndulo | `Shift` | `X` |
 | Agarrar parede escalável | automático (contra a parede) | automático |
-| Parede: wall jump / soltar | `Espaço` / `S`, `↓` ou `Ctrl` | `A` / `B` |
+| Subir/descer na parede | `W`/`S` ou `↑`/`↓` | stick vertical |
+| Parede: wall jump | `Espaço` | `A` |
+| Soltar parede | `Ctrl` esquerdo | `B` |
 | Soltar sem pular | `Ctrl` esquerdo | `B` |
 | Reset da sala | `R` | — |
 
