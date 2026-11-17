@@ -22,7 +22,21 @@ Bola Amarela são **objetos reais da hierarquia** (sem `GameBootstrap`).
 - Abra `Level02.unity` e dê Play.
 - As regras de caixa/pit/laser e as diretrizes de colliders/triggers estão em
   [`LEVEL02.md`](LEVEL02.md).
-- As duas cenas estão no Build Settings, com a `Level02` primeiro.
+- As cenas estão no Build Settings, com a `EnemyLab` primeiro.
+
+## Cena EnemyLab (inimigos)
+
+A cena **`Assets/_Project/Scenes/EnemyLab.unity`** valida os inimigos:
+
+- 3 **soldados**: amarelo, QTE azul e QTE vermelho;
+- 3 **torretas**: amarela, QTE azul e QTE vermelha;
+- `EnemyType` define a interação (`Yellow`, `BlueQte`, `RedQte`);
+- `EnemyArchetype` define o corpo (`Soldier`, `Turret`);
+- a torreta dispara rajadas e entra em cooldown;
+- o soldado patrulha e causa dano de contato.
+
+O HUD mostra o prompt do QTE/estilingue. Detalhes de design e estados em
+[`ENEMIES.md`](ENEMIES.md).
 
 ## Controles
 
@@ -39,6 +53,8 @@ Bola Amarela são **objetos reais da hierarquia** (sem `GameBootstrap`).
 | Parede: wall jump | `Espaço` | `A` |
 | Soltar parede | `Ctrl` esquerdo | `B` |
 | Soltar sem pular | `Ctrl` esquerdo | `B` |
+| Inimigo amarelo | segure o botão do gancho, mire e solte | idem |
+| QTE azul / vermelho | RMB / LMB dentro da janela | `RB` / `LB` |
 | Reset da sala | `R` | — |
 
 ## Mecânicas testáveis na sala

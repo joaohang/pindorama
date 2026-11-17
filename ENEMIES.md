@@ -14,11 +14,23 @@ do prompt:
 | Caixas com snap, rotação travada, puzzle e laser | ✅ |
 | Bola Amarela móvel | ✅ |
 | Assistência de mira | ❌ (hoje é hitscan puro) |
-| Inimigos, torreta, projéteis | ❌ (subsistema novo) |
-| Estilingue amarelo + slow motion | ❌ |
-| QTE azul/vermelho | ❌ |
+| Inimigos, torreta, projéteis | ✅ protótipo |
+| Estilingue amarelo + slow motion | ✅ protótipo |
+| QTE azul/vermelho | ✅ protótipo |
 
 O trabalho novo é concentrado em **inimigos e no contrato entre gancho e alvo**.
+
+### Modelo final implementado
+
+- **3 `EnemyType`**: `Yellow`, `BlueQte`, `RedQte`.
+- **2 `EnemyArchetype`**: `Soldier`, `Turret`.
+- O tipo define a **interação com o gancho**; o arquétipo define o **corpo**.
+  Uma torreta pode ser amarela, QTE azul ou QTE vermelho; um soldado também.
+- Cena `EnemyLab.unity`: 3 soldados + 3 torretas, cobrindo os 3 tipos.
+- `EnemyBase` implementa `IHookReceiver`; `HookHand` notifica attach/detach.
+- `PlayerController2D` tem estados de puxão e interação com inimigo.
+- `TurretBehavior` (rajada/cooldown), `SoldierBehavior` (patrulha),
+  `EnemyProjectile` e `EnemyHud` completam o laboratório.
 
 ## Arquitetura recomendada
 
@@ -54,7 +66,8 @@ Isso mantém o gancho genérico e deixa cada inimigo decidir o que fazer.
 
 Um componente base para todos os inimigos:
 
-- `EnemyType` (`Normal`, `Turret`, `YellowSlingshot`, `BlueQte`, `RedQte`);
+- `EnemyType` (`Yellow`, `BlueQte`, `RedQte`) — interação com o gancho;
+- `EnemyArchetype` (`Soldier`, `Turret`) — corpo/comportamento;
 - cor/lado (Red/Blue/Neutral);
 - vida, dano de contato, VFX de morte, respawn;
 - referência ao `HookAnchor` filho;
@@ -273,27 +286,20 @@ Sugestão de dimensões:
 
 ## Plano de implementação
 
-Fase 1 — base + cena:
+O protótipo já cobre:
 
 1. `IHookReceiver` + eventos no `HookHand`.
-2. `EnemyBase` + `NormalEnemy` + `TurretEnemy` + `EnemyProjectile`.
-3. `EnemyLab` com salas 1 e 2.
-4. `EnemyHud` mínimo.
+2. `EnemyBase` + `TurretBehavior` + `SoldierBehavior` + `EnemyProjectile`.
+3. `EnemyLab` com 3 soldados + 3 torretas.
+4. `EnemyHud` com prompt de QTE/estilingue.
+5. Amarelo: time slow, mira e lançamento.
+6. QTE azul/vermelho com botão correto e punição.
 
-Fase 2 — amarelo:
+Próximos passos:
 
-5. `YellowSlingshotEnemy` + time slow + launch.
-6. Sala 3.
-
-Fase 3 — QTE:
-
-7. `QteEnemy` azul/vermelho + prompts.
-8. Sala 4.
-
-Fase 4 — polimento:
-
-9. aim assist;
-10. VFX/feedback, balanceamento, reset.
+7. aim assist;
+8. VFX/feedback, balanceamento, reset de sala;
+9. mais padrões de level design e waves.
 
 ## Riscos e salvaguardas
 
@@ -312,7 +318,6 @@ Fase 4 — polimento:
 ## Conclusão
 
 O projeto já tem a parte mais difícil (movimento, gancho, boost, wall cling,
-puzzle e bola móvel). O subsistema de inimigos é **viável** e modular, mas pede
-uma cena e um contrato novo entre gancho e alvo. Recomendo validar primeiro um
-**vertical slice** com inimigo normal + torreta + amarelo + um QTE, e só depois
-balancear os quatro tipos juntos.
+puzzle e bola móvel). O protótipo de inimigos está implementado com **3 tipos**
+(`Yellow`, `BlueQte`, `RedQte`) e **2 corpos** (`Soldier`, `Turret`), além da
+cena `EnemyLab.unity`. Falta playtest/balanceamento e aim assist.

@@ -83,7 +83,8 @@ namespace TwinHook
                 return;
 
             if (player == null || player.IsGrounded || player.IsBraced ||
-                player.IsRidingMovingAnchor)
+                player.IsRidingMovingAnchor || player.IsInEnemyInteraction ||
+                player.IsBeingPulledByEnemy)
                 return;
 
             float horizontal = Input.GetAxisRaw("Horizontal");

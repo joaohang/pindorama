@@ -34,6 +34,8 @@ namespace TwinHook
         public HookHandState State { get; private set; }
         public HookAnchor Anchor { get { return anchor; } }
         public float AttachedAt { get; private set; }
+        public PlayerController2D PlayerController { get { return player; } }
+        public Rigidbody2D PlayerBody { get { return playerBody; } }
 
         public Vector2 VisualAttachPoint
         {
@@ -232,6 +234,10 @@ namespace TwinHook
             }
             // Fixed: não cria joint nem trava o jogador. O brace é decidido
             // pelo DualHookController quando os DOIS ganchos estão presos.
+
+            IHookReceiver receiver = a.GetComponentInParent<IHookReceiver>();
+            if (receiver != null)
+                receiver.OnHookAttached(this, impactPoint);
         }
 
         private void CreateJoint(HookAnchor a)
@@ -316,6 +322,14 @@ namespace TwinHook
             {
                 Destroy(joint);
                 joint = null;
+            }
+
+            HookAnchor detachedAnchor = anchor;
+            if (detachedAnchor != null)
+            {
+                IHookReceiver receiver = detachedAnchor.GetComponentInParent<IHookReceiver>();
+                if (receiver != null)
+                    receiver.OnHookDetached(this, reason);
             }
 
             reeling = false;

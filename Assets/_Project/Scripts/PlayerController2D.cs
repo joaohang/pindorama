@@ -44,10 +44,19 @@ namespace TwinHook
         private bool rideOriginalSimulated = true;
         private float rideOriginalGravityScale = 1f;
 
+        private bool isEnemyInteraction;
+        private float enemyCachedGravityScale = 4.5f;
+        private RigidbodyConstraints2D enemyCachedConstraints;
+
+        private bool isEnemyPulling;
+        private float enemyPullCachedGravityScale = 4.5f;
+
 
         public bool IsGrounded { get; private set; }
         public bool IsBraced { get { return isBraced; } }
         public bool IsRidingMovingAnchor { get { return movingRideCount > 0; } }
+        public bool IsInEnemyInteraction { get { return isEnemyInteraction; } }
+        public bool IsBeingPulledByEnemy { get { return isEnemyPulling; } }
         public float Speed { get { return rb != null ? rb.GetVelocity().magnitude : 0f; } }
 
         private WallClingController WallCling
@@ -124,8 +133,60 @@ namespace TwinHook
             }
         }
 
+        public void BeginEnemyPull()
+        {
+            if (isEnemyPulling)
+                return;
+
+            isEnemyPulling = true;
+            enemyPullCachedGravityScale = rb.gravityScale;
+            rb.gravityScale = 0f;
+        }
+
+        public void EndEnemyPull()
+        {
+            if (!isEnemyPulling)
+                return;
+
+            isEnemyPulling = false;
+            rb.gravityScale = enemyPullCachedGravityScale;
+        }
+
+        public void BeginEnemyInteraction()
+        {
+            if (isEnemyInteraction)
+                return;
+
+            if (isEnemyPulling)
+                EndEnemyPull();
+
+            isEnemyInteraction = true;
+            enemyCachedGravityScale = rb.gravityScale;
+            enemyCachedConstraints = rb.constraints;
+
+            rb.linearVelocity = Vector2.zero;
+            rb.gravityScale = 0f;
+            rb.constraints |= RigidbodyConstraints2D.FreezePositionX |
+                              RigidbodyConstraints2D.FreezePositionY |
+                              RigidbodyConstraints2D.FreezeRotation;
+        }
+
+        public void EndEnemyInteraction()
+        {
+            if (!isEnemyInteraction)
+                return;
+
+            isEnemyInteraction = false;
+            rb.constraints = enemyCachedConstraints;
+            rb.gravityScale = enemyCachedGravityScale;
+            rb.linearVelocity = Vector2.zero;
+        }
+
         private void Update()
         {
+            if (isEnemyInteraction || isEnemyPulling)
+                return;
+
             if (WallCling != null && WallCling.IsClinging)
                 return;
 
@@ -184,6 +245,9 @@ namespace TwinHook
         /// </summary>
         private void UpdateGravity()
         {
+            if (isEnemyInteraction || isEnemyPulling)
+                return;
+
             if (WallCling != null && WallCling.IsClinging)
                 return;
 
@@ -199,6 +263,9 @@ namespace TwinHook
 
         private void FixedUpdate()
         {
+            if (isEnemyInteraction || isEnemyPulling)
+                return;
+
             if (WallCling != null && WallCling.IsClinging)
                 return;
 

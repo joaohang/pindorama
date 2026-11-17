@@ -32,6 +32,7 @@ namespace TwinHook
         private HookHand lastShotHand;
         private bool lastShotWasAim;
         private float lastShotTime = -999f;
+        private bool inputSuspended;
 
         public bool AnyAttached
         {
@@ -78,6 +79,10 @@ namespace TwinHook
                 playerCollider = player.GetComponent<Collider2D>();
 
             UpdateAim();
+
+            // Durante QTE/estilingue o inimigo controla os botões.
+            if (inputSuspended)
+                return;
 
             bool redDown =
                 Input.GetMouseButtonDown(0) ||
@@ -221,6 +226,11 @@ namespace TwinHook
         public void SetBraceRule(bool onlyWithPullable)
         {
             braceOnlyWithPullable = onlyWithPullable;
+        }
+
+        public void SetInputSuspended(bool value)
+        {
+            inputSuspended = value;
         }
 
         public void Configure(PlayerController2D p, HookSettings s, HookHand red, HookHand blue)

@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/_Project/Scenes/EnemyLab.unity
+    guid: c09439953d5e55c48935c7d7a2d89ed9
+  - enabled: 1
     path: Assets/_Project/Scenes/Level02.unity
     guid: 71b7232d02eff8340951f6f79769db2b
   - enabled: 1
