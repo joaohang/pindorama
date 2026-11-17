@@ -106,6 +106,11 @@ namespace TwinHook
             if (bodyCollider == null)
                 bodyCollider = GetComponent<Collider2D>();
 
+            // O gancho só puxa se a cor da mão casar com a cor do inimigo.
+            HookAnchor hookAnchor = GetComponentInChildren<HookAnchor>();
+            if (hookAnchor != null)
+                hookAnchor.Configure(HookColorFor(type), hookAnchor.Motion);
+
             level = FindAnyObjectByType<LevelController>();
             player = FindAnyObjectByType<PlayerController2D>();
             hooks = FindAnyObjectByType<DualHookController>();
@@ -118,6 +123,10 @@ namespace TwinHook
         {
             type = enemyType;
             archetype = enemyArchetype;
+
+            HookAnchor hookAnchor = GetComponentInChildren<HookAnchor>();
+            if (hookAnchor != null)
+                hookAnchor.Configure(HookColorFor(type), hookAnchor.Motion);
         }
 
         public void OnHookAttached(HookHand hookHand, Vector2 hitPoint)

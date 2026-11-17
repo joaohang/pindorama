@@ -209,7 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66b91c0e7d84c934ca58589d85d0dbcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TwinHook.HookAnchor
-  color: 2
+  color: 1
   motion: 0
   attachPoint: {fileID: 0}
 --- !u!50 &10184980
@@ -2745,7 +2745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66b91c0e7d84c934ca58589d85d0dbcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TwinHook.HookAnchor
-  color: 2
+  color: 0
   motion: 0
   attachPoint: {fileID: 0}
 --- !u!50 &1234338388
@@ -3262,7 +3262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66b91c0e7d84c934ca58589d85d0dbcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TwinHook.HookAnchor
-  color: 2
+  color: 1
   motion: 0
   attachPoint: {fileID: 0}
 --- !u!50 &1402946539
@@ -4060,7 +4060,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66b91c0e7d84c934ca58589d85d0dbcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TwinHook.HookAnchor
-  color: 2
+  color: 0
   motion: 0
   attachPoint: {fileID: 0}
 --- !u!50 &1978531657

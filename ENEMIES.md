@@ -26,6 +26,8 @@ O trabalho novo é concentrado em **inimigos e no contrato entre gancho e alvo**
 - **2 `EnemyArchetype`**: `Soldier`, `Turret`.
 - O tipo define a **interação com o gancho**; o arquétipo define o **corpo**.
   Uma torreta pode ser amarela, QTE azul ou QTE vermelho; um soldado também.
+- O `HookAnchor` do inimigo usa a cor do tipo: `RedQte` só aceita gancho
+  vermelho, `BlueQte` só azul e `Yellow` é neutro (aceita os dois).
 - Cena `EnemyLab.unity`: 3 soldados + 3 torretas, cobrindo os 3 tipos.
 - `EnemyBase` implementa `IHookReceiver`; `HookHand` notifica attach/detach.
 - `PlayerController2D` tem estados de puxão e interação com inimigo.

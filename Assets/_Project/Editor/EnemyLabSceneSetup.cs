@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -229,7 +229,9 @@ namespace TwinHook.Editor
             rb.freezeRotation = true;
 
             HookAnchor anchor = go.AddComponent<HookAnchor>();
-            anchor.Configure(HookColor.Neutral, HookAnchorMotion.Swing);
+            HookColor hookColor = type == EnemyType.BlueQte ? HookColor.Blue :
+                (type == EnemyType.RedQte ? HookColor.Red : HookColor.Neutral);
+            anchor.Configure(hookColor, HookAnchorMotion.Swing);
 
             EnemyBase enemy = go.AddComponent<EnemyBase>();
             enemy.Configure(type, archetype);

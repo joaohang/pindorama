@@ -32,6 +32,8 @@ A cena **`Assets/_Project/Scenes/EnemyLab.unity`** valida os inimigos:
 - 3 **torretas**: amarela, QTE azul e QTE vermelha;
 - `EnemyType` define a interação (`Yellow`, `BlueQte`, `RedQte`);
 - `EnemyArchetype` define o corpo (`Soldier`, `Turret`);
+- **gancho colorido**: RedQte só aceita gancho vermelho; BlueQte só azul;
+  Yellow aceita os dois;
 - a torreta dispara rajadas e entra em cooldown;
 - o soldado patrulha e causa dano de contato.
 
