@@ -70,9 +70,18 @@ namespace TwinHook
             {
                 if (state == EnemyState.QteWindow)
                 {
+                    bool hookIsRed = hand != null && hand.Color == HookColor.Red;
+
                     if (type == EnemyType.BlueQte)
-                        return "QTE AZUL: aperte o botão DIREITO (RMB)!";
-                    return "QTE VERMELHO: aperte o botão ESQUERDO (LMB)!";
+                    {
+                        return hookIsRed
+                            ? "QTE AZUL: aperte RMB!"
+                            : "QTE AZUL: aperte LMB (ou solte RMB)!";
+                    }
+
+                    return hookIsRed
+                        ? "QTE VERMELHO: aperte RMB (ou solte LMB)!"
+                        : "QTE VERMELHO: aperte LMB!";
                 }
 
                 if (state == EnemyState.YellowStuck)
@@ -230,16 +239,31 @@ namespace TwinHook
                     return;
                 }
 
+                bool gamepad = Input.GetJoystickNames().Length > 0;
                 bool redDown = Input.GetMouseButtonDown(0) ||
-                               (Input.GetJoystickNames().Length > 0 && Input.GetKeyDown(KeyCode.JoystickButton4));
+                               (gamepad && Input.GetKeyDown(KeyCode.JoystickButton4));
                 bool blueDown = Input.GetMouseButtonDown(1) ||
-                                (Input.GetJoystickNames().Length > 0 && Input.GetKeyDown(KeyCode.JoystickButton5));
+                                (gamepad && Input.GetKeyDown(KeyCode.JoystickButton5));
+                bool redUp = Input.GetMouseButtonUp(0) ||
+                             (gamepad && Input.GetKeyUp(KeyCode.JoystickButton4));
+                bool blueUp = Input.GetMouseButtonUp(1) ||
+                              (gamepad && Input.GetKeyUp(KeyCode.JoystickButton5));
 
-                if (redDown || blueDown)
+                bool hookIsRed = hand.Color == HookColor.Red;
+                bool hookMatchesColor = (type == EnemyType.RedQte && hookIsRed) ||
+                                        (type == EnemyType.BlueQte && !hookIsRed);
+
+                // Aperta o botão da cor OU, se o gancho já está na mão dessa cor,
+                // aperta o outro botão / solta o botão preso.
+                bool enemyColorDown = (type == EnemyType.RedQte && redDown) ||
+                                      (type == EnemyType.BlueQte && blueDown);
+                bool oppositeDown = (type == EnemyType.RedQte && hookIsRed && blueDown) ||
+                                    (type == EnemyType.BlueQte && !hookIsRed && redDown);
+                bool hookReleased = hookMatchesColor && (hookIsRed ? redUp : blueUp);
+
+                if (redDown || blueDown || redUp || blueUp)
                 {
-                    bool correct = (type == EnemyType.RedQte && redDown) ||
-                                   (type == EnemyType.BlueQte && blueDown);
-                    if (correct)
+                    if (enemyColorDown || oppositeDown || hookReleased)
                         QteSuccess();
                     else
                         QteFail();

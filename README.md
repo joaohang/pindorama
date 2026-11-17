@@ -54,7 +54,7 @@ O HUD mostra o prompt do QTE/estilingue. Detalhes de design e estados em
 | Soltar parede | `Ctrl` esquerdo | `B` |
 | Soltar sem pular | `Ctrl` esquerdo | `B` |
 | Inimigo amarelo | segure o botão do gancho, mire e solte | idem |
-| QTE azul / vermelho | RMB / LMB dentro da janela | `RB` / `LB` |
+| QTE azul / vermelho | botão da cor; se o gancho já estiver nessa mão, aperte o outro ou solte o botão | `RB` / `LB` |
 | Reset da sala | `R` | — |
 
 ## Mecânicas testáveis na sala

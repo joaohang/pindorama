@@ -179,9 +179,13 @@ QteWindow (0.8–1.2 s, tempo real ou levemente desacelerado)
 Success (destrói)        Fail (knockback + dano + solta)
 ```
 
-- O input correto é o botão da **cor do inimigo**:
+- Regra principal: o botão da **cor do inimigo**:
   - vermelho → LMB;
   - azul → RMB.
+- Se o gancho já estiver preso na mão dessa mesma cor (botão preso), o QTE
+  também aceita **apertar o outro botão** ou **soltar o botão preso**.
+  Ex.: RedQte preso com LMB → apertar RMB ou soltar LMB.
+- Se o gancho estiver na mão oposta, use o botão da cor do inimigo.
 - A janela usa `Time.unscaledDeltaTime` e mostra prompt no HUD.
 - Acerto: inimigo morre, VFX, hook solta.
 - Erro/timeout: jogador é rebatido para longe, perde vida/respawna, hook solta.
