@@ -139,7 +139,7 @@ namespace TwinHook.Editor
 
             GameObject pose = new GameObject("Pose");
             pose.transform.SetParent(root.transform, false);
-            pose.transform.localPosition = new Vector3(0f, -0.315f, 0f);
+            pose.transform.localPosition = new Vector3(0f, -0.105f, 0f);
             SpriteRenderer poseRenderer = pose.AddComponent<SpriteRenderer>();
             poseRenderer.sprite = hangFrames[0];
             poseRenderer.sortingOrder = 5;

@@ -121,18 +121,30 @@ namespace TwinHook
 
         private void ShowPose(int index)
         {
-            if (bodyRenderer != null)
-                bodyRenderer.enabled = false;
-
-            if (poseRenderer == null)
-                return;
-
-            poseRenderer.enabled = true;
-            if (hangFrames != null && hangFrames.Length > 0)
+            if (poseRenderer == null || hangFrames == null || hangFrames.Length == 0)
             {
-                int clamped = Mathf.Clamp(index, 0, hangFrames.Length - 1);
-                if (hangFrames[clamped] != null)
-                    poseRenderer.sprite = hangFrames[clamped];
+                ShowBody();
+                return;
+            }
+
+            int clamped = Mathf.Clamp(index, 0, hangFrames.Length - 1);
+            Sprite chosen = hangFrames[clamped];
+            if (chosen == null)
+            {
+                ShowBody();
+                return;
+            }
+
+            poseRenderer.gameObject.SetActive(true);
+            poseRenderer.enabled = true;
+            poseRenderer.sprite = chosen;
+            if (poseRenderer.color.a < 0.01f)
+                poseRenderer.color = Color.white;
+            if (bodyRenderer != null)
+            {
+                poseRenderer.sortingOrder = Mathf.Max(poseRenderer.sortingOrder,
+                    bodyRenderer.sortingOrder + 1);
+                bodyRenderer.enabled = false;
             }
         }
 
