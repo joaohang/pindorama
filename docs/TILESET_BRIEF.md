@@ -435,3 +435,18 @@ no slopes/ramps, no one-way platforms, no ladders
 - Não colocar detalhes brilhantes atrás da corda do gancho.
 - Não copiar composição, personagens ou assets de Sanabi.
 - Não gerar 47 tiles inconsistentes: um conjunto menor e coerente é melhor.
+
+## 14. Prévia procedural gerada
+
+Foi gerado um **mock procedural** (Pillow) para validar escala, paleta, leitura
+e composição. **Não é arte final** e não substitui o gerador de imagem.
+
+- Visão geral: [`images/tileset_overview.png`](images/tileset_overview.png)
+- Sala de teste: [`images/tileset_mock_room.png`](images/tileset_mock_room.png)
+- Atlas comum: [`images/tileset_common_atlas.png`](images/tileset_common_atlas.png)
+- Atlas escalável: [`images/tileset_climbable_atlas.png`](images/tileset_climbable_atlas.png)
+- Props/perigos: [`images/tileset_props_card.png`](images/tileset_props_card.png)
+- Manifest: [`images/tileset_manifest.csv`](images/tileset_manifest.csv)
+
+O script que gera essas imagens está em
+[`tools/generate_tileset_mock.py`](../tools/generate_tileset_mock.py).
