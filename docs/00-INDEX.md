@@ -9,8 +9,6 @@
   especificação técnica e prompt pronto para outra IA montar o tileset.
 - [`CHARACTER_BASE_ANALYSIS.md`](CHARACTER_BASE_ANALYSIS.md) — análise do
   personagem do projeto `jogoTeste` como base visual e plano de port.
-- [`POSE_REFERENCES.md`](POSE_REFERENCES.md) — análise de poses faltantes e
-  conceitos para wall cling/climb, hurt, fall, land e boost.
 
 ## Documentos existentes
 

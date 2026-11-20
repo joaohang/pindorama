@@ -27,17 +27,16 @@ namespace TwinHook.Editor
 
             Sprite[] idles = LoadSprites("Idle", "Idle", 4);
             Sprite[] hangs = LoadSprites("Hang", "Hang", 4);
-            Sprite[] jumps = LoadSprites("Jump", "Jump", 7);
 
             if (idle == null || run == null || jump == null ||
-                idles[0] == null || hangs[3] == null || jumps[6] == null)
+                idles[0] == null || hangs[0] == null)
             {
                 Debug.LogError("PlayerCyberpunkSetup: sprites ou clips ausentes.");
                 return;
             }
 
             AnimatorController controller = CreateController(idle, run, jump);
-            CreatePrefab(controller, idles[0], hangs, jumps);
+            CreatePrefab(controller, idles[0], hangs);
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -123,7 +122,7 @@ namespace TwinHook.Editor
         }
 
         private static void CreatePrefab(AnimatorController controller, Sprite bodySprite,
-                                         Sprite[] hangFrames, Sprite[] jumpFrames)
+                                         Sprite[] hangFrames)
         {
             GameObject root = new GameObject("PlayerCyberpunkVisual");
             root.transform.localScale = Vector3.one * 3f;
@@ -140,19 +139,14 @@ namespace TwinHook.Editor
 
             GameObject pose = new GameObject("Pose");
             pose.transform.SetParent(root.transform, false);
-            pose.transform.localPosition = new Vector3(0f, -0.105f, 0f);
+            pose.transform.localPosition = new Vector3(0f, -0.315f, 0f);
             SpriteRenderer poseRenderer = pose.AddComponent<SpriteRenderer>();
             poseRenderer.sprite = hangFrames[0];
             poseRenderer.sortingOrder = 5;
             poseRenderer.enabled = false;
 
             PlayerCharacterVisual visual = root.AddComponent<PlayerCharacterVisual>();
-            visual.Configure(
-                bodyRenderer, animator, poseRenderer, hangFrames,
-                new[] { hangFrames[0], hangFrames[1] },
-                new[] { hangFrames[1], hangFrames[2], hangFrames[1], hangFrames[3] },
-                new[] { hangFrames[0], hangFrames[1], hangFrames[2], hangFrames[3] },
-                new[] { jumpFrames[5], jumpFrames[6] });
+            visual.Configure(bodyRenderer, animator, poseRenderer, hangFrames);
 
             PrefabUtility.SaveAsPrefabAsset(root, PrefabPath);
             Object.DestroyImmediate(root);

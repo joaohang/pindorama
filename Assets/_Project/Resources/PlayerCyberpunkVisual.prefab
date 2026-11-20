@@ -54,24 +54,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 03c554245b42d9749b395a6a4244387b, type: 3}
   - {fileID: 21300000, guid: c165db40f4c9bf44f98961b11dd084ab, type: 3}
   - {fileID: 21300000, guid: 76bb4ec0121fef3489c6c4f3f57874dc, type: 3}
-  wallClingFrames:
-  - {fileID: 21300000, guid: a969a566e3821f342ab1d839c8d3ff2b, type: 3}
-  - {fileID: 21300000, guid: 03c554245b42d9749b395a6a4244387b, type: 3}
-  wallClimbUpFrames:
-  - {fileID: 21300000, guid: 03c554245b42d9749b395a6a4244387b, type: 3}
-  - {fileID: 21300000, guid: c165db40f4c9bf44f98961b11dd084ab, type: 3}
-  - {fileID: 21300000, guid: 03c554245b42d9749b395a6a4244387b, type: 3}
-  - {fileID: 21300000, guid: 76bb4ec0121fef3489c6c4f3f57874dc, type: 3}
-  wallClimbDownFrames:
-  - {fileID: 21300000, guid: a969a566e3821f342ab1d839c8d3ff2b, type: 3}
-  - {fileID: 21300000, guid: 03c554245b42d9749b395a6a4244387b, type: 3}
-  - {fileID: 21300000, guid: c165db40f4c9bf44f98961b11dd084ab, type: 3}
-  - {fileID: 21300000, guid: 76bb4ec0121fef3489c6c4f3f57874dc, type: 3}
-  wallJumpFrames:
-  - {fileID: 8203366735451802290, guid: 0e0ea3e52d0674148bc79c393afd4196, type: 3}
-  - {fileID: -5687778391239784475, guid: ddf5fadfe3d0dd04eaebf7c0537159c3, type: 3}
-  wallFrameRate: 8
-  wallJumpPoseDuration: 0.16
   runReferenceSpeed: 7
 --- !u!1 &5030311264654845553
 GameObject:
@@ -99,7 +81,7 @@ Transform:
   m_GameObject: {fileID: 5030311264654845553}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.105, z: 0}
+  m_LocalPosition: {x: 0, y: -0.315, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

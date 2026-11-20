@@ -38,7 +38,6 @@ namespace TwinHook
         private bool isClinging;
         private int facing = 1;
         private int wallSide;
-        private float climbDirection;
         private Vector2 wallNormal = Vector2.left;
         private float cachedGravityScale = 4.5f;
         private RigidbodyConstraints2D cachedConstraints;
@@ -46,7 +45,6 @@ namespace TwinHook
 
         public bool IsClinging { get { return isClinging; } }
         public int WallSide { get { return wallSide; } }
-        public float ClimbDirection { get { return climbDirection; } }
 
         private void OnValidate()
         {
@@ -155,7 +153,6 @@ namespace TwinHook
             wallSide = side;
             wallNormal = normal;
             facing = side;
-            climbDirection = 0f;
 
             cachedGravityScale = rb.gravityScale;
             cachedConstraints = rb.constraints;
@@ -217,7 +214,6 @@ namespace TwinHook
 
             // Sobe devagar e desce escorregando um pouco mais rápido.
             float vertical = Input.GetAxisRaw("Vertical");
-            climbDirection = vertical;
             if (vertical > 0.1f)
             {
                 rb.linearVelocity = new Vector2(0f, climbUpSpeed);
@@ -251,7 +247,6 @@ namespace TwinHook
                 return;
 
             isClinging = false;
-            climbDirection = 0f;
             rb.constraints = cachedConstraints;
             rb.gravityScale = cachedGravityScale;
             regrabUntil = Time.time + regrabCooldown;
