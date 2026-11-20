@@ -1,0 +1,12 @@
+﻿CraftPix — Free Prototype 2D Platformer 32x32 Pixel Tileset
+https://craftpix.net/
+License: https://craftpix.net/file-licenses/
+
+Assets used in this prototype:
+- CraftPix 32x32 platformer tileset (colors and props)
+- Objects: doors, button, lever, chest, spikes, target, training dummy
+- Pipes
+
+The original pack's tile/prefab/backtile PNGs contain size labels. The tiles in
+Generated/Tilesets are a clean 9-slice derivative made from the CraftPix
+palette; the label-free objects and pipes are used directly.

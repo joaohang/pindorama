@@ -1,7 +1,8 @@
 # CraftPix 32×32 Platformer Tileset — análise e integração
 
 **Pasta analisada:** `craftpix-net-141897-free-prototype-2d-platformer-32x32-pixel-tileset`  
-**Status:** análise; nada importado/aplicado no jogo ainda.
+**Status:** configurado no projeto. Veja
+[`CRAFTPIX_SETUP.md`](CRAFTPIX_SETUP.md) para abrir a cena e usar a palette.
 
 > **Atenção importante:** os PNGs de `1 Tiles`, `2 TilePrefabs` e `4 BackTiles`
 > têm **rótulos de tamanho desenhados dentro da imagem** (`32`, `45°`, `27°`,

@@ -55,6 +55,8 @@ O HUD mostra o prompt do QTE/estilingue. Detalhes de design e estados em
   do sprite sheet do protagonista ciborgue (foice + martelo, sem mãos).
 - [`docs/CRAFTPIX_TILESET_ANALYSIS.md`](docs/CRAFTPIX_TILESET_ANALYSIS.md) —
   análise do tileset CraftPix 32×32 e plano de uso no protótipo.
+- [`docs/CRAFTPIX_SETUP.md`](docs/CRAFTPIX_SETUP.md) — cena de exemplo e uso da
+  Tile Palette do CraftPix.
 - [`LEVEL02.md`](LEVEL02.md) — level design da Level02.
 - [`ENEMIES.md`](ENEMIES.md) — design do subsistema de inimigos.
 

@@ -17,6 +17,8 @@
   máquina de estados, reset de gancho/timeScale e prompt de implementação.
 - [`CRAFTPIX_TILESET_ANALYSIS.md`](CRAFTPIX_TILESET_ANALYSIS.md) — análise do
   tileset CraftPix 32×32, cores, limitações e plano de uso.
+- [`CRAFTPIX_SETUP.md`](CRAFTPIX_SETUP.md) — cena de exemplo, Tile Palette e
+  instruções para montar mapas com o CraftPix.
 
 ## Documentos existentes
 
