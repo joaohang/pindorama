@@ -1,6 +1,6 @@
 # Poses faltantes — análise e conceitos
 
-**Status:** revisão, **nada aplicado no jogo**  
+**Status:** pacote de parede aplicado como **placeholder**; arte final pendente  
 **Data:** 2026-11-20
 
 ## Objetivo
@@ -148,17 +148,28 @@ guias de contato/seta para validar:
 - leitura da corda dupla.
 
 Ela **não é uma nova arte**: é um mock de pose derivado do personagem atual.
-Nada foi importado no prefab nem no Animator.
+
+## Aplicado no protótipo
+
+O pacote recomendado de parede foi aplicado no `PlayerCharacterVisual`:
+
+| Estado | Frames usados | Observação |
+|---|---|---|
+| Wall cling | 2: Hang1, Hang2 | placeholder |
+| Wall climb up | 4: Hang2, Hang3, Hang2, Hang4 | placeholder |
+| Wall climb down | 4: Hang1, Hang2, Hang3, Hang4 | placeholder |
+| Wall jump | 2: Jump6, Jump7 | 0.16 s de pose |
+
+- taxa de 8 fps para as poses de parede;
+- `WallClingController.ClimbDirection` informa subida/descida;
+- wall jump é detectado ao sair do cling com velocidade vertical positiva;
+- nada de arte nova foi desenhado: são frames existentes reorganizados;
+- `Hurt`, `Fall`, `Land` e `Boost` continuam como placeholders do corpo/Hang4.
 
 ## Próximo passo
 
-Se a direção estiver aprovada:
-
 1. desenhar/gerar os frames definitivos no mesmo estilo 80×80;
-2. criar clips `WallCling`, `WallClimbUp`, `WallClimbDown`, `WallJump`, `Fall`,
-   `Land`, `Hurt`;
-3. trocar os placeholders do `PlayerCharacterVisual`;
+2. substituir as arrays `wallClingFrames`, `wallClimbUpFrames`,
+   `wallClimbDownFrames` e `wallJumpFrames` no prefab;
+3. criar clips `Fall`, `Land`, `Hurt`;
 4. testar em `Level02` e `EnemyLab`.
-
-Se preferir, o próximo passo pode ser só **wall cling + climb**, que são os
-mais importantes para a jogabilidade atual.

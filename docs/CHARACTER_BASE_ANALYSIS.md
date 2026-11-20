@@ -415,14 +415,16 @@ sem alterar os scripts de gameplay existentes.
 | Jump/fall | Jump 80×80 |
 | Swing/gancho | Hang4 |
 | Brace/dois ganchos | Hang4 |
-| Wall cling | Hang1 (placeholder) |
-| Wall climb up/down | Hang1 (placeholder) |
-| Wall jump | Jump (corpo) |
+| Wall cling | 2 frames: Hang1/Hang2 (placeholder) |
+| Wall climb up | 4 frames: Hang2/Hang3/Hang2/Hang4 (placeholder) |
+| Wall climb down | 4 frames: Hang1/Hang2/Hang3/Hang4 (placeholder) |
+| Wall jump | 2 frames: Jump6/Jump7 por 0.16 s |
 | Boost | Hang4 |
 | Hurt/morte | corpo padrão |
 
-Para trocar os placeholders depois, basta substituir os sprites/frames no
-`PlayerCharacterVisual` e criar os clips definitivos.
+As arrays `wallClingFrames`, `wallClimbUpFrames`, `wallClimbDownFrames` e
+`wallJumpFrames` ficam no prefab `PlayerCyberpunkVisual` e podem ser trocadas
+por arte definitiva sem mexer no `PlayerCharacterVisual`.
 
 ### Como visualizar
 

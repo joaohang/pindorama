@@ -59,8 +59,10 @@ O jogador usa o personagem cyberpunk 80×80 importado do projeto
 
 - `Idle`, `Run` e `Jump` animados;
 - poses `Hang1–4` para swing/gancho;
-- **wall cling**, **wall climb**, **hurt/morte** e **fall** usam uma pose
-  padrão/placeholder até existirem animações específicas;
+- **wall cling:** 2 frames Hang1/Hang2;
+- **wall climb:** 4 frames para subir e 4 para descer (placeholders Hang);
+- **wall jump:** 2 frames Jump6/Jump7 por 0.16 s;
+- **hurt/morte** e **fall** ainda usam o corpo/pose padrão;
 - o prefab é instanciado no `Start()` do `PlayerController2D`, então no editor
   o visual antigo pode aparecer até dar Play.
 

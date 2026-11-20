@@ -15,6 +15,14 @@ namespace TwinHook
         [SerializeField] private SpriteRenderer poseRenderer;
         [SerializeField] private Sprite[] hangFrames = new Sprite[4];
 
+        [Header("Wall poses (placeholders até arte final)")]
+        [SerializeField] private Sprite[] wallClingFrames = new Sprite[2];
+        [SerializeField] private Sprite[] wallClimbUpFrames = new Sprite[4];
+        [SerializeField] private Sprite[] wallClimbDownFrames = new Sprite[4];
+        [SerializeField] private Sprite[] wallJumpFrames = new Sprite[2];
+        [SerializeField] private float wallFrameRate = 8f;
+        [SerializeField] private float wallJumpPoseDuration = 0.16f;
+
         [SerializeField] private float runReferenceSpeed = 7f;
 
         private PlayerController2D player;
@@ -22,17 +30,25 @@ namespace TwinHook
         private WallClingController wall;
         private Rigidbody2D rb;
         private int facing = 1;
+        private bool wasClinging;
+        private float wallJumpPoseUntil;
 
         private static readonly int SpeedHash = Animator.StringToHash("Speed");
         private static readonly int GroundedHash = Animator.StringToHash("isGrounded");
 
         public void Configure(SpriteRenderer body, Animator animator,
-                              SpriteRenderer pose, Sprite[] frames)
+                              SpriteRenderer pose, Sprite[] frames,
+                              Sprite[] cling = null, Sprite[] climbUp = null,
+                              Sprite[] climbDown = null, Sprite[] wallJump = null)
         {
             bodyRenderer = body;
             bodyAnimator = animator;
             poseRenderer = pose;
             hangFrames = frames;
+            wallClingFrames = cling;
+            wallClimbUpFrames = climbUp;
+            wallClimbDownFrames = climbDown;
+            wallJumpFrames = wallJump;
         }
 
         private void Awake()
@@ -56,8 +72,25 @@ namespace TwinHook
                 rb = player.GetComponent<Rigidbody2D>();
             }
 
+            EnsureWallFrameFallbacks();
+
             if (poseRenderer != null)
                 poseRenderer.enabled = false;
+        }
+
+        private void EnsureWallFrameFallbacks()
+        {
+            if (hangFrames == null || hangFrames.Length < 4)
+                return;
+
+            if (wallClingFrames == null || wallClingFrames.Length == 0)
+                wallClingFrames = new[] { hangFrames[0], hangFrames[1] };
+            if (wallClimbUpFrames == null || wallClimbUpFrames.Length == 0)
+                wallClimbUpFrames = new[] { hangFrames[1], hangFrames[2], hangFrames[1], hangFrames[3] };
+            if (wallClimbDownFrames == null || wallClimbDownFrames.Length == 0)
+                wallClimbDownFrames = new[] { hangFrames[0], hangFrames[1], hangFrames[2], hangFrames[3] };
+            if (wallJumpFrames == null || wallJumpFrames.Length == 0)
+                wallJumpFrames = new[] { hangFrames[2], hangFrames[3] };
         }
 
         private void LateUpdate()
@@ -70,12 +103,32 @@ namespace TwinHook
             bool hooked = hooks != null && hooks.AnyAttached;
             bool enemy = player.IsInEnemyInteraction || player.IsBeingPulledByEnemy;
             bool braced = player.IsBraced;
+            bool wallJumping = Time.time < wallJumpPoseUntil;
 
-            bool poseActive = clinging || hooked || enemy || braced;
-            if (poseActive)
-                ShowPose(clinging ? 0 : 3);
+            if (wasClinging && !clinging && rb != null && rb.linearVelocity.y > 1f)
+                wallJumpPoseUntil = Time.time + wallJumpPoseDuration;
+            wasClinging = clinging;
+            wallJumping = Time.time < wallJumpPoseUntil;
+
+            if (clinging)
+            {
+                float climb = wall != null ? wall.ClimbDirection : 0f;
+                Sprite[] frames = climb > 0.1f ? wallClimbUpFrames :
+                    (climb < -0.1f ? wallClimbDownFrames : wallClingFrames);
+                ShowPoseSequence(frames, wallFrameRate);
+            }
+            else if (wallJumping)
+            {
+                ShowPoseSequence(wallJumpFrames, wallFrameRate);
+            }
+            else if (hooked || enemy || braced)
+            {
+                ShowPoseFrame(hangFrames, 3);
+            }
             else
+            {
                 ShowBody();
+            }
 
             if (bodyAnimator != null)
             {
@@ -84,7 +137,7 @@ namespace TwinHook
                 bodyAnimator.SetBool(GroundedHash, player.IsGrounded && !hooked);
             }
 
-            UpdateFacing(clinging, hooked || enemy || braced);
+            UpdateFacing(clinging, hooked || enemy || braced || wallJumping);
         }
 
         private void EnsurePlayerReferences()
@@ -119,7 +172,16 @@ namespace TwinHook
             }
         }
 
-        private void ShowPose(int index)
+        private void ShowPoseSequence(Sprite[] frames, float fps)
+        {
+            if (frames == null || frames.Length == 0)
+                return;
+
+            int index = Mathf.FloorToInt(Time.time * Mathf.Max(1f, fps)) % frames.Length;
+            ShowPoseFrame(frames, index);
+        }
+
+        private void ShowPoseFrame(Sprite[] frames, int index)
         {
             if (bodyRenderer != null)
                 bodyRenderer.enabled = false;
@@ -128,11 +190,20 @@ namespace TwinHook
                 return;
 
             poseRenderer.enabled = true;
-            if (hangFrames != null && hangFrames.Length > 0)
+            if (frames != null && frames.Length > 0)
             {
-                int clamped = Mathf.Clamp(index, 0, hangFrames.Length - 1);
-                if (hangFrames[clamped] != null)
-                    poseRenderer.sprite = hangFrames[clamped];
+                int clamped = Mathf.Clamp(index, 0, frames.Length - 1);
+                Sprite chosen = frames[clamped];
+                if (chosen != null)
+                {
+                    poseRenderer.sprite = chosen;
+
+                    // Hang e Jump têm pivôs diferentes. Alinha o pé do frame
+                    // ao fundo do capsule em vez de deslocar o personagem.
+                    float localHeight = chosen.rect.height / Mathf.Max(1f, chosen.pixelsPerUnit);
+                    float y = -(0.5f - chosen.pivot.y) * localHeight;
+                    poseRenderer.transform.localPosition = new Vector3(0f, y, 0f);
+                }
             }
         }
 
