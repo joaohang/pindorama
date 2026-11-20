@@ -13,6 +13,8 @@
   poses faltantes e prompts para gerar o sprite sheet completo.
 - [`CHARACTER_DESIGN_PROMPT.md`](CHARACTER_DESIGN_PROMPT.md) — prompt único
   para o sprite sheet do protagonista ciborgue (sem mãos; foice + martelo).
+- [`DAMAGE_SYSTEM_PLAN.md`](DAMAGE_SYSTEM_PLAN.md) — plano do dano híbrido,
+  máquina de estados, reset de gancho/timeScale e prompt de implementação.
 
 ## Documentos existentes
 
