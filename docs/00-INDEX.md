@@ -7,6 +7,8 @@
   laser, bola e inimigos).
 - [`TILESET_BRIEF.md`](TILESET_BRIEF.md) — contexto, direção de arte,
   especificação técnica e prompt pronto para outra IA montar o tileset.
+- [`CHARACTER_BASE_ANALYSIS.md`](CHARACTER_BASE_ANALYSIS.md) — análise do
+  personagem do projeto `jogoTeste` como base visual e plano de port.
 
 ## Documentos existentes
 

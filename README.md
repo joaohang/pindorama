@@ -47,6 +47,8 @@ O HUD mostra o prompt do QTE/estilingue. Detalhes de design e estados em
   regras atuais de movimento, gancho, parede, caixas, laser, bola e inimigos.
 - [`docs/TILESET_BRIEF.md`](docs/TILESET_BRIEF.md) — contexto e prompt para
   outra IA montar o tileset.
+- [`docs/CHARACTER_BASE_ANALYSIS.md`](docs/CHARACTER_BASE_ANALYSIS.md) — análise
+  do personagem do `jogoTeste` como base visual.
 - [`LEVEL02.md`](LEVEL02.md) — level design da Level02.
 - [`ENEMIES.md`](ENEMIES.md) — design do subsistema de inimigos.
 
