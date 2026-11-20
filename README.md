@@ -40,6 +40,14 @@ A cena **`Assets/_Project/Scenes/EnemyLab.unity`** valida os inimigos:
 O HUD mostra o prompt do QTE/estilingue. Detalhes de design e estados em
 [`ENEMIES.md`](ENEMIES.md).
 
+## Documentação
+
+- [`docs/00-INDEX.md`](docs/00-INDEX.md) — índice geral.
+- [`docs/GAME_RULES.md`](docs/GAME_RULES.md) — **Mechanics / Rules Spec**:
+  regras atuais de movimento, gancho, parede, caixas, laser, bola e inimigos.
+- [`LEVEL02.md`](LEVEL02.md) — level design da Level02.
+- [`ENEMIES.md`](ENEMIES.md) — design do subsistema de inimigos.
+
 ## Controles
 
 | Ação | Teclado/mouse | Gamepad |

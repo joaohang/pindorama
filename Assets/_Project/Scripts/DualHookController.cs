@@ -140,6 +140,8 @@ namespace TwinHook
                 return;
             if (player.IsBraced || player.IsGrounded || player.IsRidingMovingAnchor)
                 return;
+            if (player.IsInEnemyInteraction || player.IsBeingPulledByEnemy)
+                return;
             if (Time.time < nextBoostTime)
                 return;
 
