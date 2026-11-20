@@ -66,6 +66,9 @@ O jogador usa o personagem cyberpunk 80×80 importado do projeto
 
 Créditos e aviso de licença em
 [`Assets/_Project/Art/PlayerCyberpunk/CREDITS.txt`](Assets/_Project/Art/PlayerCyberpunk/CREDITS.txt).
+A revisão das poses faltantes (wall cling/climb, hurt, fall, land, boost) está
+em [`docs/POSE_REFERENCES.md`](docs/POSE_REFERENCES.md), com o mock em
+`docs/images/pose_concepts/missing_poses_concept.png`.
 
 ## Controles
 
