@@ -9,6 +9,8 @@
   especificação técnica e prompt pronto para outra IA montar o tileset.
 - [`CHARACTER_BASE_ANALYSIS.md`](CHARACTER_BASE_ANALYSIS.md) — análise do
   personagem do projeto `jogoTeste` como base visual e plano de port.
+- [`SPRITE_SHEET_BRIEF.md`](SPRITE_SHEET_BRIEF.md) — análise do SANABI,
+  poses faltantes e prompts para gerar o sprite sheet completo.
 
 ## Documentos existentes
 

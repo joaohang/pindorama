@@ -49,6 +49,8 @@ O HUD mostra o prompt do QTE/estilingue. Detalhes de design e estados em
   outra IA montar o tileset.
 - [`docs/CHARACTER_BASE_ANALYSIS.md`](docs/CHARACTER_BASE_ANALYSIS.md) — análise
   do personagem do `jogoTeste` como base visual.
+- [`docs/SPRITE_SHEET_BRIEF.md`](docs/SPRITE_SHEET_BRIEF.md) — contexto,
+  análise do SANABI e prompts para gerar o sprite sheet completo.
 - [`LEVEL02.md`](LEVEL02.md) — level design da Level02.
 - [`ENEMIES.md`](ENEMIES.md) — design do subsistema de inimigos.
 
