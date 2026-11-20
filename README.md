@@ -53,6 +53,8 @@ O HUD mostra o prompt do QTE/estilingue. Detalhes de design e estados em
   análise do SANABI e prompts para gerar o sprite sheet completo.
 - [`docs/CHARACTER_DESIGN_PROMPT.md`](docs/CHARACTER_DESIGN_PROMPT.md) — prompt
   do sprite sheet do protagonista ciborgue (foice + martelo, sem mãos).
+- [`docs/CRAFTPIX_TILESET_ANALYSIS.md`](docs/CRAFTPIX_TILESET_ANALYSIS.md) —
+  análise do tileset CraftPix 32×32 e plano de uso no protótipo.
 - [`LEVEL02.md`](LEVEL02.md) — level design da Level02.
 - [`ENEMIES.md`](ENEMIES.md) — design do subsistema de inimigos.
 

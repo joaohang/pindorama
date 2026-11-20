@@ -15,6 +15,8 @@
   para o sprite sheet do protagonista ciborgue (sem mãos; foice + martelo).
 - [`DAMAGE_SYSTEM_PLAN.md`](DAMAGE_SYSTEM_PLAN.md) — plano do dano híbrido,
   máquina de estados, reset de gancho/timeScale e prompt de implementação.
+- [`CRAFTPIX_TILESET_ANALYSIS.md`](CRAFTPIX_TILESET_ANALYSIS.md) — análise do
+  tileset CraftPix 32×32, cores, limitações e plano de uso.
 
 ## Documentos existentes
 
