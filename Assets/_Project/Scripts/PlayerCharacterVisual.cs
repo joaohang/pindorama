@@ -175,7 +175,10 @@ namespace TwinHook
         private void ShowPoseSequence(Sprite[] frames, float fps)
         {
             if (frames == null || frames.Length == 0)
+            {
+                ShowBody();
                 return;
+            }
 
             int index = Mathf.FloorToInt(Time.time * Mathf.Max(1f, fps)) % frames.Length;
             ShowPoseFrame(frames, index);
@@ -183,28 +186,44 @@ namespace TwinHook
 
         private void ShowPoseFrame(Sprite[] frames, int index)
         {
-            if (bodyRenderer != null)
-                bodyRenderer.enabled = false;
-
             if (poseRenderer == null)
-                return;
-
-            poseRenderer.enabled = true;
-            if (frames != null && frames.Length > 0)
             {
-                int clamped = Mathf.Clamp(index, 0, frames.Length - 1);
-                Sprite chosen = frames[clamped];
-                if (chosen != null)
-                {
-                    poseRenderer.sprite = chosen;
-
-                    // Hang e Jump têm pivôs diferentes. Alinha o pé do frame
-                    // ao fundo do capsule em vez de deslocar o personagem.
-                    float localHeight = chosen.rect.height / Mathf.Max(1f, chosen.pixelsPerUnit);
-                    float y = -(0.5f - chosen.pivot.y) * localHeight;
-                    poseRenderer.transform.localPosition = new Vector3(0f, y, 0f);
-                }
+                ShowBody();
+                return;
             }
+
+            if (frames == null || frames.Length == 0)
+            {
+                ShowBody();
+                return;
+            }
+
+            int clamped = Mathf.Clamp(index, 0, frames.Length - 1);
+            Sprite chosen = frames[clamped];
+            if (chosen == null)
+            {
+                ShowBody();
+                return;
+            }
+
+            // Só esconde o corpo depois de confirmar que a pose tem sprite.
+            poseRenderer.gameObject.SetActive(true);
+            poseRenderer.enabled = true;
+            poseRenderer.sprite = chosen;
+            if (poseRenderer.color.a < 0.01f)
+                poseRenderer.color = Color.white;
+            if (bodyRenderer != null)
+            {
+                poseRenderer.sortingOrder = Mathf.Max(poseRenderer.sortingOrder,
+                    bodyRenderer.sortingOrder + 1);
+                bodyRenderer.enabled = false;
+            }
+
+            // Hang e Jump têm pivôs diferentes. Alinha o pé do frame
+            // ao fundo do capsule em vez de deslocar o personagem.
+            float localHeight = chosen.rect.height / Mathf.Max(1f, chosen.pixelsPerUnit);
+            float y = -(0.5f - chosen.pivot.y) * localHeight;
+            poseRenderer.transform.localPosition = new Vector3(0f, y, 0f);
         }
 
         private void ShowBody()
