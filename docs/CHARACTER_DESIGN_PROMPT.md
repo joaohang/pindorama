@@ -1,124 +1,134 @@
-# Pindorama — prompt de design do protagonista
+# Pindorama — prompt do sprite sheet do protagonista
 
-Prompt único para gerar a **referência visual do personagem** (não é o sprite
-sheet de animação). O texto está em inglês porque geradores de imagem costumam
-responder melhor; a descrição em português está abaixo do bloco.
+Prompt único para gerar o **sprite sheet jogável** do protagonista.  
+Não é uma folha de turnaround/design: são frames de animação em células 80×80.
 
 ## Prompt
 
 ```text
-Create an original 2D character design sheet for "Pindorama", a cyberpunk
-precision-platformer. The character is a fictional cyborg prisoner of an
-interdimensional techno-dictatorship, loosely inspired by the historical
-Brazilian revolutionary Carlos Marighella, but fictionalized: do not make a
-literal portrait or use any real-person likeness, logo, or existing game asset.
+Create a complete 2D pixel-art SPRITE SHEET for the playable protagonist of
+"Pindorama", a cyberpunk precision-platformer. This is a gameplay sprite sheet,
+NOT a character turnaround, NOT a concept-art sheet, and NOT a single
+illustration. Every cell must be one animation frame.
 
-IDENTITY
-A Black Brazilian man in his late 50s, wiry but strong, with a lined face,
-short receding gray hair, a thick gray mustache, tired but defiant eyes, and
-old scars. He is a cyborg: prison-grade implants replace parts of his spine,
-neck, and both forearms, with visible flesh-to-metal seams, cable ports, and
-mismatched synthetic joints. One eye is organic and weary; the other is a
-cracked optical implant with a faint amber glow. He has the presence of a
-revolutionary intellectual who has been imprisoned and rebuilt by force, not a
-superhero or a generic robot. His posture is grounded, watchful, and slightly
-hunched from shackles and hard labor.
+CHARACTER
+A fictional Black Brazilian cyborg in his late 50s, loosely inspired by the
+historical revolutionary Carlos Marighella, but fictionalized: no literal
+portrait, no real-person likeness, no copied logo or existing game asset.
+He is a prisoner of an interdimensional techno-dictatorship: lined face,
+short receding gray hair, thick gray mustache, tired but defiant eyes, old
+scars, one organic eye and one cracked amber optical implant. Prison-grade
+implants replace parts of his spine, neck, and both forearms, with visible
+flesh-to-metal seams, cable ports, serial stamps, and improvised repairs.
+He wears a torn orange prison jumpsuit with a faded inmate number, a scavenged
+dark ballistic vest, heavy boots, a broken ankle shackle, a cybernetic collar
+with faint portal glyphs, and a holographic ID tag. The silhouette must read
+as a prisoner-cyborg, not a generic chrome android.
 
-SETTING
-He is an inmate of a brutal interdimensional prison ruled by a techno-
-dictatorship: rusted chrome, concrete, exposed cables, red emergency lights,
-holographic inmate tags, glitch scars, and broken magnetic shackles. The prison
-is a mix of 1970s political-prisoner imagery and far-future cyberpunk. His
-cybernetic parts look prison-issue and salvaged: no sleek corporate chrome,
-just exposed wiring, serial stamps, and improvised repairs.
+NO HANDS — THIS IS CRITICAL
+The character has NO HANDS. Do not draw fingers, palms, wrists, or human hands.
+Both arms end in mechanical weapon sockets. The two weapons are permanently
+integrated into the forearms and must be visible in every frame.
 
-COSTUME
-Torn orange prison jumpsuit with a large faded inmate number, reinforced
-knees, a dark scavenged ballistic vest, heavy boots, a utility belt with cable
-spools and tools, one broken shackle on the ankle, a cybernetic collar with
-faint portal glyphs, and a holographic ID tag. The clothes are repaired with
-wire, tape, and mismatched metal plates, cut around the shoulder sockets and
-spinal ports so the cyborg body is visible. The silhouette should read as a
-prisoner-cyborg, not a soldier.
+LEFT ARM — RED CHAIN-SCYTHE
+A curved war-scythe blade mounted on a mechanical forearm socket. Worn red
+painted metal, dark steel edge, exposed chain links, a compact cable spool,
+bolts, and a short tether. It is a weapon, not a farming scythe: aggressive,
+hooked, readable, and able to catch/pull like a grappling blade. No hand holds
+it; the weapon grows out of the arm.
 
-THE TWO HOOKS — the core of the design
-Both forearms are cybernetic prostheses, and each ends in a different
-integrated grappling weapon. This is the main cyborg feature of the design:
+RIGHT ARM — CYAN MAGNETIC HAMMER
+A heavy cybernetic forearm ending in a compact magnetic hammer head with copper
+coils, cyan-electric energy, yellow-and-black warning stripes, pistons, and a
+retractable chain. The head is bulky and asymmetric. No hand holds it; the
+hammer is the end of the arm. It can clamp to metal and deliver a magnetic slam.
 
-LEFT ARM — "CORDÃO" (conventional red grapple)
-A worn industrial cable/chain grapple integrated into the forearm. Red painted
-metal, exposed chain links, a mechanical claw hook, a small pressure gauge,
-sparks, and a coiled cable. It is the "normal" hook: reliable, mechanical,
-brutal, and clearly reads as a grappling hook.
+The two weapons must be instantly distinguishable in silhouette: a thin,
+curved red scythe on one side; a heavy, cyan, rectangular hammer on the other.
+Do not give him a gun, sword, normal hook, or human hands.
 
-RIGHT ARM — "MARTELO" (magnetic hammer-grapnel)
-A heavier cybernetic forearm ending in a compact magnetic hammer head with
-copper coils, cyan-electric energy, yellow-and-black warning stripes, pistons,
-and a retractable chain. It can clamp to metal and deliver a magnetic slam. It
-is visually asymmetric and heavier than the left arm. Use electric cyan/teal
-as its main energy color, with small warm yellow warning accents.
-
-The two arms must be instantly distinguishable in silhouette: one thin,
-red, cable-and-claw; the other bulky, cyan, hammer-and-coil. Both should look
-like extensions of the same prison-tech body, not two unrelated weapons.
-
-PALETTE
-Prison orange (#C65A2E, #8E3A1F), rust and dark brown, gunmetal (#2A3440),
-near-black (#050912), bone white (#FCFCFC), deep red (#750C18, #C32210),
-electric cyan (#2BD9C4, #4A8CD8), warning yellow (#FFD24A). Limited palette,
-strong value contrast, neon only as accents.
+CANVAS AND FORMAT
+Each frame is exactly 80x80 px on a transparent background.
+Character faces RIGHT in every frame; the game mirrors X for left.
+Center pivot at 0.5,0.5.
+Keep the feet on a consistent baseline about 4 px above the bottom edge.
+Use 2 px transparent padding between cells.
+No ropes, long chains, VFX, shadows, backgrounds, UI, text, labels, or grid
+lines. The scythe/hammer may have only their short integrated chain mounts;
+the long grappling cable is drawn by the game engine.
 
 STYLE
-Original 2D pixel-art character design, side-scroller concept art, sharp
-pixel clusters, readable silhouette, slightly exaggerated hands and forearms,
-no anti-aliasing outside the silhouette, no photorealistic rendering, no 3D.
-Think " aging revolutionary prisoner + improvised cybernetic grapples",
-not "generic cyborg soldier".
+Crisp 2D pixel art, sharp pixel clusters, readable silhouette, limited palette,
+slightly exaggerated weapons and forearms, no anti-aliasing outside the
+silhouette, no motion blur, no 3D, no photorealism.
+Palette anchors: prison orange #C65A2E/#8E3A1F; rust; gunmetal #2A3440;
+near-black #050912; bone white #FCFCFC; deep red #750C18/#C32210; electric cyan
+#2BD9C4/#4A8CD8; warning yellow #FFD24A. Use neon only as accent.
 
-OUTPUT
-A clean character design sheet on a neutral dark background:
-- full-body front view;
-- three-quarter view;
-- side view;
-- one neutral A-pose with both hooks visible;
-- 3 close-up callouts: face/optical implant, red cable grapple, cyan magnetic
-  hammer;
-- optional back view showing the prison collar, spinal port, and cable spools.
-Keep proportions consistent across views. Make the cyborg nature unmistakable:
-visible neck/spine implants, synthetic forearms, flesh-to-metal seams, and
-asymmetric rebuilt shoulders. No text, no labels, no UI, no logos, no
-background scenery. The sheet is a reference for a later 80x80 sprite sheet.
+SPRITE SHEET CONTENT
+Produce four separate PNG sheets, each 8 columns wide, with 80x80 cells:
 
-NEGATIVE
-no real-person portrait, no Carlos Marighella likeness, no copied SANABI
-character or outfit, no generic cyber-soldier armor, no sci-fi rifle, no sword,
-no extra arms, no missing arms, no normal human hands replacing both hooks,
-no rope drawn across the whole image, no VFX, no text, no UI, no logo, no
-photorealistic skin, no 3D render, no isometric, no busy background, no
-inconsistent costume between views, no fully robotic body, no generic
-chrome android, no human hands replacing the two hook forearms.
+1. player_locomotion.png
+   idle 4, run 8, jump 8 (anticipation/rise/apex/fall), fall 2, land 2, turn 2.
+
+2. player_wall.png
+   wall cling 2, wall climb up 6, wall climb down 6, wall jump 3.
+
+3. player_weapons.png
+   scythe aim forward 1, scythe aim up 1, scythe aim down 1, scythe fire 2,
+   scythe attached 2, hammer aim 2, hammer slam 3, hammer attached 2,
+   dual-weapon stance 2, brace 2, swing boost 2, pull 2.
+
+4. player_combat.png
+   hurt 2, death 4, respawn 2, yellow-enemy stick 1, yellow aim 2,
+   yellow launch 2, QTE struggle 2, QTE success 1.
+
+If the generator cannot produce all four, produce them in this order:
+locomotion, wall, weapons, combat. Use the first sheet as the exact character
+reference for the next ones.
+
+POSE RULES
+- Run: wide stride, scythe trailing, hammer counterbalancing.
+- Jump: anticipation, rise, apex, fall; weapons follow the body.
+- Wall cling: side-on, hips close, two feet and the two weapon forearms in
+  contact; no hands.
+- Wall climb: diagonal limb alternation, 6 frames per direction.
+- Wall jump: compress, push off, release; body away from the wall.
+- Scythe aim: curve the blade toward the target; no hand, no wrist.
+- Scythe fire: arm recoil, blade/chain extended.
+- Hammer slam: heavy overhead arc, cyan coil flare, body braced.
+- Dual stance: scythe and hammer both visible, chest open.
+- Brace: compact body, both weapon arms pulling, feet planted.
+- Swing boost: stretched body along the tangent, weapons trailing.
+- Pull: torso leaning toward the pulled object.
+- Hurt: recoil and head snap; no blood, no baked flash.
+- Death: 4-stage collapse.
+- QTE/yellow: tension, struggle, launch.
+
+CONSISTENCY
+Same character, same outfit, same two weapons in every cell.
+No extra arms, no missing arms, no human hands, no swords, no guns.
+No duplicate frames. No labels inside the image.
+Deliver a manifest.csv with:
+animation, frame, column, row, fps, loop, pivot_x, pivot_y, notes.
 ```
 
 ## Resumo em português
 
-- Homem negro brasileiro, ~55–60 anos, **ciborgue**, inspirado em Carlos
-  Marighella, mas **fictício e sem likeness literal**.
-- Prisioneiro de uma ditadura tecnológica interplanetária/interdimensional.
-- Implantes prisionais na coluna, pescoço e antebraços; um olho orgânico e
-  outro óptico rachado; emendas carne-metal visíveis.
-- Macacão laranja rasgado, colete improvisado, algemas quebradas, coleira
-  cyberpunk e identificação holográfica.
-- **Braço esquerdo:** gancho vermelho **convencional**, com cabo/corrente,
-  garra e polia.
-- **Braço direito:** **martelo magnético** ciano, com bobinas, pistões, corrente
-  retrátil e faixas de alerta.
-- Silhueta assimétrica: um braço fino e vermelho, outro volumoso e ciano.
-- Paleta: laranja de prisão, ferrugem, gunmetal, vermelho, ciano elétrico e
-  amarelo de alerta.
-- Entrega: folha de design com frente, 3/4, lado, A-pose e closeups dos braços.
+- É um **sprite sheet jogável**, não uma folha de design/turnaround.
+- O personagem é um **ciborgue prisioneiro**, inspirado em Carlos Marighella,
+  mas fictício e sem likeness literal.
+- **Não tem mãos**: os dois antebraços terminam em armas integradas.
+- **Braço esquerdo:** foice de guerra vermelha, com corrente/cabo curto.
+- **Braço direito:** martelo magnético ciano, pesado, com bobinas e pistões.
+- Sem arma de fogo, sem espada, sem gancho comum, sem mãos humanas.
+- Frames 80×80, fundo transparente, olhando para a direita, pivô central,
+  pés no mesmo baseline, 2 px de padding.
+- Quatro sheets: locomoção, parede, armas e combate.
+- Sem corda longa, VFX, texto, fundo ou UI.
 
 ## Observação
 
-O termo “voice normal” foi interpretado como **gancho convencional** (cabo,
-corrente e garra), em oposição ao martelo magnético. Se a intenção era “voz”,
-o prompt precisa ser ajustado.
+A foice ocupa o papel de arma/gancho convencional do braço esquerdo; o martelo
+magnético ocupa o braço direito. Se você quiser inverter as cores/lados, é só
+trocar “left/right” no prompt.

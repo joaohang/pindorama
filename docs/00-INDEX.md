@@ -12,7 +12,7 @@
 - [`SPRITE_SHEET_BRIEF.md`](SPRITE_SHEET_BRIEF.md) — análise do SANABI,
   poses faltantes e prompts para gerar o sprite sheet completo.
 - [`CHARACTER_DESIGN_PROMPT.md`](CHARACTER_DESIGN_PROMPT.md) — prompt único
-  para a folha de design do protagonista prisioneiro.
+  para o sprite sheet do protagonista ciborgue (sem mãos; foice + martelo).
 
 ## Documentos existentes
 
