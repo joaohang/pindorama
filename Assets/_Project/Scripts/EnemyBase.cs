@@ -40,7 +40,6 @@ namespace TwinHook
 
         private EnemyState state = EnemyState.Idle;
         private float qteEnd;
-        private float yellowPreviousTimeScale = 1f;
         private float nextInteractTime;
         private bool endingInternally;
 
@@ -213,8 +212,7 @@ namespace TwinHook
 
             if (type == EnemyType.Yellow)
             {
-                yellowPreviousTimeScale = Time.timeScale;
-                Time.timeScale = yellowSlowScale;
+                TimeScaleService.Push("Yellow", yellowSlowScale);
                 state = EnemyState.YellowStuck;
             }
             else
@@ -305,7 +303,7 @@ namespace TwinHook
 
             endingInternally = true;
             state = EnemyState.Dead;
-            Time.timeScale = 1f;
+            TimeScaleService.Pop("Yellow");
 
             if (hooks != null)
                 hooks.SetInputSuspended(false);
@@ -377,7 +375,7 @@ namespace TwinHook
             endingInternally = true;
 
             if (state == EnemyState.YellowStuck)
-                Time.timeScale = 1f;
+                TimeScaleService.Pop("Yellow");
 
             if (hooks != null)
                 hooks.SetInputSuspended(false);
@@ -423,14 +421,40 @@ namespace TwinHook
             if (state == EnemyState.Dead || IsInteracting)
                 return;
 
-            if (collision.collider.GetComponentInParent<PlayerController2D>() != null && level != null)
+            PlayerDamageController damage =
+                collision.collider.GetComponentInParent<PlayerDamageController>();
+            if (damage != null)
+            {
+                damage.ApplyDamage(new DamageInfo(
+                    DamageType.NonLethal, transform.position, 12f, gameObject));
+            }
+            else if (level != null)
+            {
                 level.RespawnPlayer();
+            }
+        }
+
+        public void ForceCancelInteraction()
+        {
+            if (state == EnemyState.Dead)
+                return;
+
+            if (state == EnemyState.Pulling)
+            {
+                if (player != null)
+                    player.EndEnemyPull();
+                state = EnemyState.Idle;
+                hand = null;
+                return;
+            }
+
+            CancelInteraction();
         }
 
         private void OnDisable()
         {
             if (state == EnemyState.YellowStuck)
-                Time.timeScale = 1f;
+                TimeScaleService.Pop("Yellow");
 
             if (hooks != null)
                 hooks.SetInputSuspended(false);

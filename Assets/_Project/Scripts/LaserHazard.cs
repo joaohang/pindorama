@@ -104,8 +104,18 @@ namespace TwinHook
                 return;
 
             nextHitTime = Time.time + 0.2f;
-            if (level != null)
+
+            PlayerDamageController damage =
+                other.GetComponentInParent<PlayerDamageController>();
+            if (damage != null)
+            {
+                damage.ApplyDamage(new DamageInfo(
+                    DamageType.Lethal, transform.position, 0f, gameObject));
+            }
+            else if (level != null)
+            {
                 level.RespawnPlayer();
+            }
         }
     }
 }

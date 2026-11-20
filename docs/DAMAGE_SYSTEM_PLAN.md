@@ -1,8 +1,21 @@
 # Pindorama — sistema híbrido de dano e morte
 
-**Status:** plano de aplicação; nada implementado no jogo ainda.  
+**Status:** implementado no protótipo.  
 **Objetivo:** definir a máquina de estados, a integração com o que já existe e
 um prompt melhorado para uma IA de implementação.
+
+## Implementação aplicada
+
+- `PlayerDamageController` + `PlayerDamageHud` adicionados automaticamente ao
+  Player.
+- `TimeScaleService` centraliza o slowmo do hit e o slowmo do amarelo.
+- `LaserHazard` e `KillZone` são letais.
+- `LethalHazard` (espinhos) usa `NonLethal` por padrão; pode ser marcado como
+  letal no Inspector.
+- `EnemyProjectile` e contato de inimigo usam `NonLethal`.
+- `LevelController`/`RoomController` resetam o dano no respawn e no `R`.
+- O amarelo não escreve mais `Time.timeScale` diretamente.
+- HUD de falhas fica no canto superior direito.
 
 ## 1. O que o SANABI faz
 

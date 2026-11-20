@@ -46,6 +46,12 @@ namespace TwinHook
         public bool IsClinging { get { return isClinging; } }
         public int WallSide { get { return wallSide; } }
 
+        public void ForceExit()
+        {
+            if (isClinging)
+                ExitCling();
+        }
+
         private void OnValidate()
         {
             if (climbableMask.value == 0)

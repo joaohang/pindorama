@@ -10,6 +10,7 @@ namespace TwinHook
     public class LethalHazard : MonoBehaviour
     {
         [SerializeField] private LevelController level;
+        [SerializeField] private DamageType damageType = DamageType.NonLethal;
         [SerializeField] private float hitCooldown = 0.2f;
 
         private float nextHitTime;
@@ -37,8 +38,18 @@ namespace TwinHook
                 return;
 
             nextHitTime = Time.time + hitCooldown;
-            if (level != null)
+
+            PlayerDamageController damage =
+                other.GetComponentInParent<PlayerDamageController>();
+            if (damage != null)
+            {
+                damage.ApplyDamage(new DamageInfo(
+                    damageType, transform.position, 12f, gameObject));
+            }
+            else if (level != null)
+            {
                 level.RespawnPlayer();
+            }
         }
     }
 }

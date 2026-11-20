@@ -30,7 +30,8 @@ namespace TwinHook
         Jump,
         Drop,
         AnchorLost,
-        Reset
+        Reset,
+        Hit
     }
 
     public enum PullAxis

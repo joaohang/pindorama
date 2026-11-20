@@ -17,10 +17,19 @@ namespace TwinHook
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.GetComponentInParent<PlayerController2D>() != null)
+            if (other.GetComponentInParent<PlayerController2D>() == null)
+                return;
+
+            PlayerDamageController damage =
+                other.GetComponentInParent<PlayerDamageController>();
+            if (damage != null)
             {
-                if (room != null)
-                    room.Reset();
+                damage.ApplyDamage(new DamageInfo(
+                    DamageType.Lethal, transform.position, 0f, gameObject));
+            }
+            else if (room != null)
+            {
+                room.Reset();
             }
         }
     }

@@ -51,12 +51,16 @@ namespace TwinHook
         private bool isEnemyPulling;
         private float enemyPullCachedGravityScale = 4.5f;
 
+        private bool controlEnabled = true;
+
 
         public bool IsGrounded { get; private set; }
         public bool IsBraced { get { return isBraced; } }
         public bool IsRidingMovingAnchor { get { return movingRideCount > 0; } }
         public bool IsInEnemyInteraction { get { return isEnemyInteraction; } }
         public bool IsBeingPulledByEnemy { get { return isEnemyPulling; } }
+        public bool ControlEnabled { get { return controlEnabled; } }
+        public float NormalGravityScale { get { return gravityScale; } }
         public float Speed { get { return rb != null ? rb.GetVelocity().magnitude : 0f; } }
 
         private WallClingController WallCling
@@ -83,6 +87,16 @@ namespace TwinHook
         {
             hooks = FindAnyObjectByType<DualHookController>();
             EnsureCyberpunkVisual();
+
+            if (GetComponent<PlayerDamageController>() == null)
+                gameObject.AddComponent<PlayerDamageController>();
+        }
+
+        public void SetControlEnabled(bool value)
+        {
+            controlEnabled = value;
+            if (!value)
+                horizontal = 0f;
         }
 
         private void EnsureCyberpunkVisual()
@@ -216,6 +230,9 @@ namespace TwinHook
 
         private void Update()
         {
+            if (!controlEnabled)
+                return;
+
             if (isEnemyInteraction || isEnemyPulling)
                 return;
 
@@ -277,6 +294,9 @@ namespace TwinHook
         /// </summary>
         private void UpdateGravity()
         {
+            if (!controlEnabled)
+                return;
+
             if (isEnemyInteraction || isEnemyPulling)
                 return;
 
@@ -295,6 +315,9 @@ namespace TwinHook
 
         private void FixedUpdate()
         {
+            if (!controlEnabled)
+                return;
+
             if (isEnemyInteraction || isEnemyPulling)
                 return;
 

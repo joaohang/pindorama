@@ -53,8 +53,17 @@ namespace TwinHook
             if (other.GetComponentInParent<PlayerController2D>() == null)
                 return;
 
-            if (level != null)
+            PlayerDamageController damage =
+                other.GetComponentInParent<PlayerDamageController>();
+            if (damage != null)
+            {
+                damage.ApplyDamage(new DamageInfo(
+                    DamageType.NonLethal, transform.position, 11f, gameObject));
+            }
+            else if (level != null)
+            {
                 level.RespawnPlayer();
+            }
 
             Destroy(gameObject);
         }

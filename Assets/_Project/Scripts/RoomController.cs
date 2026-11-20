@@ -44,6 +44,13 @@ namespace TwinHook
             if (player != null)
                 player.Teleport(spawnPosition);
 
+            if (player != null)
+            {
+                PlayerDamageController damage = player.GetComponent<PlayerDamageController>();
+                if (damage != null)
+                    damage.ResetAfterRespawn(false);
+            }
+
             if (pullables != null)
             {
                 for (int i = 0; i < pullables.Length; i++)
