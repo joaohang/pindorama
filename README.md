@@ -51,6 +51,8 @@ O HUD mostra o prompt do QTE/estilingue. Detalhes de design e estados em
   do personagem do `jogoTeste` como base visual.
 - [`docs/SPRITE_SHEET_BRIEF.md`](docs/SPRITE_SHEET_BRIEF.md) — contexto,
   análise do SANABI e prompts para gerar o sprite sheet completo.
+- [`docs/CHARACTER_DESIGN_PROMPT.md`](docs/CHARACTER_DESIGN_PROMPT.md) — prompt
+  de design do protagonista prisioneiro.
 - [`LEVEL02.md`](LEVEL02.md) — level design da Level02.
 - [`ENEMIES.md`](ENEMIES.md) — design do subsistema de inimigos.
 

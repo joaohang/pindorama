@@ -11,6 +11,8 @@
   personagem do projeto `jogoTeste` como base visual e plano de port.
 - [`SPRITE_SHEET_BRIEF.md`](SPRITE_SHEET_BRIEF.md) — análise do SANABI,
   poses faltantes e prompts para gerar o sprite sheet completo.
+- [`CHARACTER_DESIGN_PROMPT.md`](CHARACTER_DESIGN_PROMPT.md) — prompt único
+  para a folha de design do protagonista prisioneiro.
 
 ## Documentos existentes
 
