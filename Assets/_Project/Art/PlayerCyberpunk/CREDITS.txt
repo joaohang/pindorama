@@ -1,0 +1,7 @@
+Cyberpunk character sprites
+Source: Cyberpunk City 2 — Ansimuz
+https://ansimuz.itch.io/
+
+These sprites were imported from the local `jogoTeste` project for the
+Pindorama prototype. Confirm the asset license before publishing or
+redistributing. Keep this credit with the assets.

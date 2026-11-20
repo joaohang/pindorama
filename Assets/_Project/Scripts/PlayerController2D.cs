@@ -82,6 +82,38 @@ namespace TwinHook
         private void Start()
         {
             hooks = FindAnyObjectByType<DualHookController>();
+            EnsureCyberpunkVisual();
+        }
+
+        private void EnsureCyberpunkVisual()
+        {
+            if (GetComponentInChildren<PlayerCharacterVisual>() != null)
+                return;
+
+            GameObject prefab = Resources.Load<GameObject>("PlayerCyberpunkVisual");
+            if (prefab == null)
+                return;
+
+            GameObject visual = Instantiate(prefab, transform);
+            visual.transform.localPosition = new Vector3(0f, 0.3f, 0f);
+            visual.transform.localRotation = Quaternion.identity;
+
+            // O sprite 80x80 tem muito padding transparente: o alignment antigo
+            // criaria um capsule de 2.4x2.4. Mantemos o capsule de gameplay.
+            Transform oldVisual = transform.Find("Visual");
+            if (oldVisual != null)
+                oldVisual.gameObject.SetActive(false);
+
+            PlayerBodyAlignment alignment = GetComponent<PlayerBodyAlignment>();
+            if (alignment != null)
+                alignment.enabled = false;
+
+            CapsuleCollider2D capsule = GetComponent<CapsuleCollider2D>();
+            if (capsule != null)
+            {
+                capsule.size = new Vector2(0.8f, 1.8f);
+                capsule.offset = Vector2.zero;
+            }
         }
 
         /// <summary>

@@ -44,6 +44,7 @@ namespace TwinHook
         private float regrabUntil;
 
         public bool IsClinging { get { return isClinging; } }
+        public int WallSide { get { return wallSide; } }
 
         private void OnValidate()
         {

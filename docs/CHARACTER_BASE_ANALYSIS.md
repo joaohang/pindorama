@@ -392,6 +392,44 @@ Não há arquivo de licença do pacote de arte no projeto. Antes de usar:
 O código do pacote parece ser de tutorial/integração; a arte é de terceiros.
 Não trate o projeto fonte como licença livre só porque está no seu disco.
 
+## Implementação aplicada no Pindorama
+
+O personagem 80×80 foi aplicado como **visual runtime** em todas as cenas,
+sem alterar os scripts de gameplay existentes.
+
+- Sprites copiados para `Assets/_Project/Art/PlayerCyberpunk/`;
+- clips copiados para `Assets/_Project/Animations/PlayerCyberpunk/`;
+- `PlayerCyberpunk.controller` criado com estados Idle/Run/Jump;
+- `PlayerCyberpunkVisual.prefab` em `Assets/_Project/Resources/`;
+- `PlayerCharacterVisual` controla corpo/pose e facing;
+- `PlayerController2D.Start()` instancia o prefab automaticamente;
+- `PlayerBodyAlignment` é desativado e o capsule fica fixo em 0.8×1.8;
+- o visual antigo (`Visual`) é desativado.
+
+### Poses padrão para estados sem animação
+
+| Estado | Visual usado |
+|---|---|
+| Idle | Idle 80×80 |
+| Run | Run 80×80 |
+| Jump/fall | Jump 80×80 |
+| Swing/gancho | Hang4 |
+| Brace/dois ganchos | Hang4 |
+| Wall cling | Hang1 (placeholder) |
+| Wall climb up/down | Hang1 (placeholder) |
+| Wall jump | Jump (corpo) |
+| Boost | Hang4 |
+| Hurt/morte | corpo padrão |
+
+Para trocar os placeholders depois, basta substituir os sprites/frames no
+`PlayerCharacterVisual` e criar os clips definitivos.
+
+### Como visualizar
+
+Abra `Level02`, `EnemyLab` ou `Main` e dê Play. O prefab é instanciado no
+`Start()` do `PlayerController2D`; no editor, o visual antigo pode continuar
+aparecendo até entrar em Play.
+
 ## Recomendação final
 
 **Use o personagem 80×80 como base visual/placeholder**, não os scripts.

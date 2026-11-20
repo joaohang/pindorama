@@ -52,6 +52,21 @@ O HUD mostra o prompt do QTE/estilingue. Detalhes de design e estados em
 - [`LEVEL02.md`](LEVEL02.md) — level design da Level02.
 - [`ENEMIES.md`](ENEMIES.md) — design do subsistema de inimigos.
 
+## Visual do jogador
+
+O jogador usa o personagem cyberpunk 80×80 importado do projeto
+`jogoTeste`:
+
+- `Idle`, `Run` e `Jump` animados;
+- poses `Hang1–4` para swing/gancho;
+- **wall cling**, **wall climb**, **hurt/morte** e **fall** usam uma pose
+  padrão/placeholder até existirem animações específicas;
+- o prefab é instanciado no `Start()` do `PlayerController2D`, então no editor
+  o visual antigo pode aparecer até dar Play.
+
+Créditos e aviso de licença em
+[`Assets/_Project/Art/PlayerCyberpunk/CREDITS.txt`](Assets/_Project/Art/PlayerCyberpunk/CREDITS.txt).
+
 ## Controles
 
 | Ação | Teclado/mouse | Gamepad |
