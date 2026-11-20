@@ -8,7 +8,7 @@ responder melhor; a descrição em português está abaixo do bloco.
 
 ```text
 Create an original 2D character design sheet for "Pindorama", a cyberpunk
-precision-platformer. The character is a fictional prisoner of an
+precision-platformer. The character is a fictional cyborg prisoner of an
 interdimensional techno-dictatorship, loosely inspired by the historical
 Brazilian revolutionary Carlos Marighella, but fictionalized: do not make a
 literal portrait or use any real-person likeness, logo, or existing game asset.
@@ -16,26 +16,34 @@ literal portrait or use any real-person likeness, logo, or existing game asset.
 IDENTITY
 A Black Brazilian man in his late 50s, wiry but strong, with a lined face,
 short receding gray hair, a thick gray mustache, tired but defiant eyes, and
-old scars. He has the presence of a revolutionary intellectual who has been
-imprisoned for years, not a superhero. His posture is grounded, watchful, and
-slightly hunched from shackles and hard labor.
+old scars. He is a cyborg: prison-grade implants replace parts of his spine,
+neck, and both forearms, with visible flesh-to-metal seams, cable ports, and
+mismatched synthetic joints. One eye is organic and weary; the other is a
+cracked optical implant with a faint amber glow. He has the presence of a
+revolutionary intellectual who has been imprisoned and rebuilt by force, not a
+superhero or a generic robot. His posture is grounded, watchful, and slightly
+hunched from shackles and hard labor.
 
 SETTING
 He is an inmate of a brutal interdimensional prison ruled by a techno-
 dictatorship: rusted chrome, concrete, exposed cables, red emergency lights,
 holographic inmate tags, glitch scars, and broken magnetic shackles. The prison
-is a mix of 1970s political-prisoner imagery and far-future cyberpunk.
+is a mix of 1970s political-prisoner imagery and far-future cyberpunk. His
+cybernetic parts look prison-issue and salvaged: no sleek corporate chrome,
+just exposed wiring, serial stamps, and improvised repairs.
 
 COSTUME
 Torn orange prison jumpsuit with a large faded inmate number, reinforced
 knees, a dark scavenged ballistic vest, heavy boots, a utility belt with cable
 spools and tools, one broken shackle on the ankle, a cybernetic collar with
 faint portal glyphs, and a holographic ID tag. The clothes are repaired with
-wire, tape, and mismatched metal plates. The silhouette should read as a
-prisoner, not a soldier.
+wire, tape, and mismatched metal plates, cut around the shoulder sockets and
+spinal ports so the cyborg body is visible. The silhouette should read as a
+prisoner-cyborg, not a soldier.
 
 THE TWO HOOKS — the core of the design
-Each hand/forearm is a different integrated grappling weapon:
+Both forearms are cybernetic prostheses, and each ends in a different
+integrated grappling weapon. This is the main cyborg feature of the design:
 
 LEFT ARM — "CORDÃO" (conventional red grapple)
 A worn industrial cable/chain grapple integrated into the forearm. Red painted
@@ -73,10 +81,13 @@ A clean character design sheet on a neutral dark background:
 - three-quarter view;
 - side view;
 - one neutral A-pose with both hooks visible;
-- 3 close-up callouts: face, red cable grapple, cyan magnetic hammer;
-- optional back view showing the prison collar and cable spools.
-Keep proportions consistent across views. No text, no labels, no UI, no logos,
-no background scenery. The sheet is a reference for a later 80x80 sprite sheet.
+- 3 close-up callouts: face/optical implant, red cable grapple, cyan magnetic
+  hammer;
+- optional back view showing the prison collar, spinal port, and cable spools.
+Keep proportions consistent across views. Make the cyborg nature unmistakable:
+visible neck/spine implants, synthetic forearms, flesh-to-metal seams, and
+asymmetric rebuilt shoulders. No text, no labels, no UI, no logos, no
+background scenery. The sheet is a reference for a later 80x80 sprite sheet.
 
 NEGATIVE
 no real-person portrait, no Carlos Marighella likeness, no copied SANABI
@@ -84,14 +95,17 @@ character or outfit, no generic cyber-soldier armor, no sci-fi rifle, no sword,
 no extra arms, no missing arms, no normal human hands replacing both hooks,
 no rope drawn across the whole image, no VFX, no text, no UI, no logo, no
 photorealistic skin, no 3D render, no isometric, no busy background, no
-inconsistent costume between views.
+inconsistent costume between views, no fully robotic body, no generic
+chrome android, no human hands replacing the two hook forearms.
 ```
 
 ## Resumo em português
 
-- Homem negro brasileiro, ~55–60 anos, inspirado em Carlos Marighella, mas
-  **fictício e sem likeness literal**.
+- Homem negro brasileiro, ~55–60 anos, **ciborgue**, inspirado em Carlos
+  Marighella, mas **fictício e sem likeness literal**.
 - Prisioneiro de uma ditadura tecnológica interplanetária/interdimensional.
+- Implantes prisionais na coluna, pescoço e antebraços; um olho orgânico e
+  outro óptico rachado; emendas carne-metal visíveis.
 - Macacão laranja rasgado, colete improvisado, algemas quebradas, coleira
   cyberpunk e identificação holográfica.
 - **Braço esquerdo:** gancho vermelho **convencional**, com cabo/corrente,
