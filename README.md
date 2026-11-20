@@ -45,6 +45,8 @@ O HUD mostra o prompt do QTE/estilingue. Detalhes de design e estados em
 - [`docs/00-INDEX.md`](docs/00-INDEX.md) — índice geral.
 - [`docs/GAME_RULES.md`](docs/GAME_RULES.md) — **Mechanics / Rules Spec**:
   regras atuais de movimento, gancho, parede, caixas, laser, bola e inimigos.
+- [`docs/TILESET_BRIEF.md`](docs/TILESET_BRIEF.md) — contexto e prompt para
+  outra IA montar o tileset.
 - [`LEVEL02.md`](LEVEL02.md) — level design da Level02.
 - [`ENEMIES.md`](ENEMIES.md) — design do subsistema de inimigos.
 

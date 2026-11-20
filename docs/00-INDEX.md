@@ -5,6 +5,8 @@
 - [`GAME_RULES.md`](GAME_RULES.md) — **Mechanics / Rules Specification**,
   fonte canônica das regras jogáveis (movimento, gancho, parede, caixas,
   laser, bola e inimigos).
+- [`TILESET_BRIEF.md`](TILESET_BRIEF.md) — contexto, direção de arte,
+  especificação técnica e prompt pronto para outra IA montar o tileset.
 
 ## Documentos existentes
 
