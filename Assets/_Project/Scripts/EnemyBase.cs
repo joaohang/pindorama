@@ -352,15 +352,20 @@ namespace TwinHook
             if (hand != null)
                 hand.ForceDetach(DetachReason.Command);
 
-            if (player != null && playerBody != null)
+            if (player != null)
+                player.EndEnemyInteraction();
+
+            PlayerDamageController damage =
+                player != null ? player.GetComponent<PlayerDamageController>() : null;
+            if (damage != null)
+            {
+                damage.ApplyDamage(new DamageInfo(
+                    DamageType.NonLethal, transform.position, qteKnockback, gameObject));
+            }
+            else if (player != null && playerBody != null)
             {
                 Vector2 away = ((Vector2)player.transform.position - (Vector2)transform.position).normalized;
-                player.EndEnemyInteraction();
                 playerBody.linearVelocity = away * qteKnockback;
-            }
-            else if (player != null)
-            {
-                player.EndEnemyInteraction();
             }
 
             hand = null;
