@@ -239,15 +239,10 @@ namespace TwinHook
             if (WallCling != null && WallCling.IsClinging)
                 return;
 
-            horizontal = Input.GetAxisRaw("Horizontal");
+            horizontal = InputReader.Horizontal;
 
-            bool jumpPressed =
-                Input.GetKeyDown(KeyCode.Space) ||
-                (Input.GetJoystickNames().Length > 0 && Input.GetKeyDown(KeyCode.JoystickButton0));
-
-            bool dropPressed =
-                Input.GetKeyDown(KeyCode.LeftControl) ||
-                (Input.GetJoystickNames().Length > 0 && Input.GetKeyDown(KeyCode.JoystickButton1));
+            bool jumpPressed = InputReader.JumpDown;
+            bool dropPressed = InputReader.DropDown;
 
             if (jumpPressed)
             {

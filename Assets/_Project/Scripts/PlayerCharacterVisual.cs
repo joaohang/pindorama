@@ -164,7 +164,7 @@ namespace TwinHook
             }
             else
             {
-                float horizontal = Input.GetAxisRaw("Horizontal");
+                float horizontal = InputReader.Horizontal;
                 if (Mathf.Abs(horizontal) > 0.1f)
                     facing = (int)Mathf.Sign(horizontal);
                 else if (hookPose && hooks != null && Mathf.Abs(hooks.AimDirection.x) > 0.1f)

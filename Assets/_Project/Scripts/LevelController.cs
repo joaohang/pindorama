@@ -49,7 +49,7 @@ namespace TwinHook
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.R))
+            if (InputReader.ResetDown)
                 ResetLevel();
         }
     }

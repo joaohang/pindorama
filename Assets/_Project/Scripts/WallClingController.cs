@@ -94,7 +94,7 @@ namespace TwinHook
                 player.IsBeingPulledByEnemy)
                 return;
 
-            float horizontal = Input.GetAxisRaw("Horizontal");
+            float horizontal = InputReader.Horizontal;
             float vx = rb != null ? rb.linearVelocity.x : 0f;
 
             if (Mathf.Abs(horizontal) > 0.1f)
@@ -197,11 +197,8 @@ namespace TwinHook
                 return;
             }
 
-            bool jump = Input.GetKeyDown(KeyCode.Space) ||
-                        (Input.GetJoystickNames().Length > 0 && Input.GetKeyDown(KeyCode.JoystickButton0));
-
-            bool drop = Input.GetKeyDown(KeyCode.LeftControl) ||
-                        (Input.GetJoystickNames().Length > 0 && Input.GetKeyDown(KeyCode.JoystickButton1));
+            bool jump = InputReader.JumpDown;
+            bool drop = InputReader.DropDown;
 
             if (jump)
             {
@@ -219,7 +216,7 @@ namespace TwinHook
             }
 
             // Sobe devagar e desce escorregando um pouco mais rápido.
-            float vertical = Input.GetAxisRaw("Vertical");
+            float vertical = InputReader.Vertical;
             if (vertical > 0.1f)
             {
                 rb.linearVelocity = new Vector2(0f, climbUpSpeed);

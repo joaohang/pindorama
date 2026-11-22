@@ -246,15 +246,10 @@ namespace TwinHook
                     return;
                 }
 
-                bool gamepad = Input.GetJoystickNames().Length > 0;
-                bool redDown = Input.GetMouseButtonDown(0) ||
-                               (gamepad && Input.GetKeyDown(KeyCode.JoystickButton4));
-                bool blueDown = Input.GetMouseButtonDown(1) ||
-                                (gamepad && Input.GetKeyDown(KeyCode.JoystickButton5));
-                bool redUp = Input.GetMouseButtonUp(0) ||
-                             (gamepad && Input.GetKeyUp(KeyCode.JoystickButton4));
-                bool blueUp = Input.GetMouseButtonUp(1) ||
-                              (gamepad && Input.GetKeyUp(KeyCode.JoystickButton5));
+                bool redDown = InputReader.RedHookDown;
+                bool blueDown = InputReader.BlueHookDown;
+                bool redUp = InputReader.RedHookUp;
+                bool blueUp = InputReader.BlueHookUp;
 
                 bool hookIsRed = hand.Color == HookColor.Red;
                 bool hookMatchesColor = (type == EnemyType.RedQte && hookIsRed) ||
@@ -287,14 +282,9 @@ namespace TwinHook
             if (hookHand == null)
                 return false;
 
-            if (hookHand.Color == HookColor.Red)
-            {
-                return Input.GetMouseButton(0) ||
-                       (Input.GetJoystickNames().Length > 0 && Input.GetKey(KeyCode.JoystickButton4));
-            }
-
-            return Input.GetMouseButton(1) ||
-                   (Input.GetJoystickNames().Length > 0 && Input.GetKey(KeyCode.JoystickButton5));
+            return hookHand.Color == HookColor.Red
+                ? InputReader.RedHookHeld
+                : InputReader.BlueHookHeld;
         }
 
         private void LaunchYellow()

@@ -84,21 +84,10 @@ namespace TwinHook
             if (inputSuspended)
                 return;
 
-            bool redDown =
-                Input.GetMouseButtonDown(0) ||
-                (Input.GetJoystickNames().Length > 0 && Input.GetKeyDown(KeyCode.JoystickButton4));
-
-            bool blueDown =
-                Input.GetMouseButtonDown(1) ||
-                (Input.GetJoystickNames().Length > 0 && Input.GetKeyDown(KeyCode.JoystickButton5));
-
-            bool redHeld =
-                Input.GetMouseButton(0) ||
-                (Input.GetJoystickNames().Length > 0 && Input.GetKey(KeyCode.JoystickButton4));
-
-            bool blueHeld =
-                Input.GetMouseButton(1) ||
-                (Input.GetJoystickNames().Length > 0 && Input.GetKey(KeyCode.JoystickButton5));
+            bool redDown = InputReader.RedHookDown;
+            bool blueDown = InputReader.BlueHookDown;
+            bool redHeld = InputReader.RedHookHeld;
+            bool blueHeld = InputReader.BlueHookHeld;
 
             if (redDown) OnRedPressed();
             if (blueDown) OnBluePressed();
@@ -125,12 +114,7 @@ namespace TwinHook
             if (!IsSwinging || (player != null && player.IsGrounded))
                 nextBoostTime = 0f;
 
-            bool boostDown =
-                Input.GetKeyDown(KeyCode.LeftShift) ||
-                Input.GetKeyDown(KeyCode.RightShift) ||
-                (Input.GetJoystickNames().Length > 0 && Input.GetKeyDown(KeyCode.JoystickButton2));
-
-            if (boostDown)
+            if (InputReader.BoostDown)
                 TrySwingBoost();
         }
 
@@ -167,7 +151,7 @@ namespace TwinHook
             }
             else
             {
-                float horizontal = Input.GetAxisRaw("Horizontal");
+                float horizontal = InputReader.Horizontal;
                 sign = Mathf.Abs(horizontal) > 0.01f ? Mathf.Sign(horizontal) : 1f;
             }
 
@@ -256,7 +240,7 @@ namespace TwinHook
             if (player.IsBraced || player.IsGrounded)
                 return;
 
-            float horizontal = Input.GetAxisRaw("Horizontal");
+            float horizontal = InputReader.Horizontal;
             if (Mathf.Abs(horizontal) < 0.01f)
                 return;
 
@@ -296,13 +280,25 @@ namespace TwinHook
 
         private void UpdateAim()
         {
-            // A mira usa o mouse. O stick direito não é lido aqui porque os eixos
-            // "RightStickX/Y" não existem no Input Manager padrão (evita ArgumentException).
+            if (player == null)
+                return;
+
+            // Gamepad: mira pelo stick direito. Se ele estiver parado, usa o mouse.
+            Vector2 stick = InputReader.AimStick;
+            if (stick.sqrMagnitude > 0.04f)
+            {
+                aimDirection = stick.normalized;
+                return;
+            }
+
+            if (!InputReader.HasMouse)
+                return;
+
             Camera cam = Camera.main;
             if (cam == null)
                 return;
 
-            Vector3 mouseWorld = cam.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mouseWorld = cam.ScreenToWorldPoint(InputReader.MouseScreenPosition);
             mouseWorld.z = 0f;
             Vector2 delta = (Vector2)mouseWorld - (Vector2)player.transform.position;
             if (delta.sqrMagnitude > 0.01f)
