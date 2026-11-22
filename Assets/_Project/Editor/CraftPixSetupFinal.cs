@@ -1,12 +1,12 @@
-﻿#if UNITY_EDITOR
+#if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEditor.Tilemaps;
+using UnityEditor.U2D.Sprites;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
@@ -99,8 +99,37 @@ namespace TwinHook.Editor
                     pivot = new Vector2(0.5f, 0.5f)
                 });
             }
-            importer.spritesheet = metas.ToArray();
+            ApplySpriteRects(importer, metas);
             importer.SaveAndReimport();
+        }
+
+        private static void ApplySpriteRects(TextureImporter importer,
+                                             List<SpriteMetaData> metas)
+        {
+            SpriteDataProviderFactories factory = new SpriteDataProviderFactories();
+            factory.Init();
+            ISpriteEditorDataProvider provider =
+                factory.GetSpriteEditorDataProviderFromObject(importer);
+            if (provider == null)
+                return;
+
+            provider.InitSpriteEditorDataProvider();
+            SpriteRect[] rects = new SpriteRect[metas.Count];
+            for (int i = 0; i < metas.Count; i++)
+            {
+                SpriteMetaData meta = metas[i];
+                rects[i] = new SpriteRect
+                {
+                    name = meta.name,
+                    rect = meta.rect,
+                    alignment = (SpriteAlignment)meta.alignment,
+                    pivot = meta.pivot,
+                    border = meta.border,
+                    spriteID = GUID.Generate()
+                };
+            }
+            provider.SetSpriteRects(rects);
+            provider.Apply();
         }
 
         private static void ConfigureObjectSheet(string path, string prefix, int cellW, int cellH,
@@ -127,7 +156,7 @@ namespace TwinHook.Editor
                     });
                 }
             }
-            importer.spritesheet = metas.ToArray();
+            ApplySpriteRects(importer, metas);
             importer.SaveAndReimport();
         }
 
